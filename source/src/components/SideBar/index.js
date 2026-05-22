@@ -24,7 +24,7 @@ const ConnectedPanel = () => {
   const styles = {
     sideBarPaper: {
       width: theme.spacing(9.75),
-      background: theme.palette.secondary.main
+      background: '#1d2126'
     },
     logo: {
       marginTop: theme.spacing(1)

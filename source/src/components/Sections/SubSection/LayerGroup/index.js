@@ -4,12 +4,11 @@ import { getLayersGroups } from 'utils/configQueries'
 
 import ContainerBar from 'components/Sections/ContainerBar'
 import Group from './Group'
+import WmsGroup from './WmsGroup'
 
 const LayerGroup = () => (
   <ContainerBar type="list">
-    {getLayersGroups().map(({ id, title }) => (
-      <Group key={id} id={id} title={title} />
-    ))}
+    <WmsGroup />
   </ContainerBar>
 )
 

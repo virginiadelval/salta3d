@@ -14,12 +14,13 @@ const LeyPopUp = ({ openPopUp, setOpenPopUp }) => {
             sx={{
               position: 'absolute',
               zIndex: 10000,
-              bgcolor: theme.palette.secondary.main,
+              bgcolor: '#ffffff',
               left: '90px',
               top: '12px',
               width: { xs: '300px', sm: '510px' },
               padding: '20px',
-              borderRadius: '5px'
+              borderRadius: '5px',
+              boxShadow: '0px 6px 20px rgba(0,0,0,0.15)'
             }}
           >
             <IconButton
@@ -30,7 +31,7 @@ const LeyPopUp = ({ openPopUp, setOpenPopUp }) => {
               <CloseIcon />
             </IconButton>
             <Typography variant="body1">
-            La información correspondiente a volumetrías y usos se encuentra en proceso de actualización según nueva normativa vigente desde el 26/12/2024. Consulta la <Link href="https://cdn2.buenosaires.gob.ar/jefaturadegabinete/desarrollourbano/LEY%206776%20N.pdf" component="a" target='_blanck'>“LEY N.° 6776: Modificaciones al Código Urbanístico”.</Link>
+            La información correspondiente a volumetrías y usos se encuentra en proceso de actualización según la nueva normativa vigente. Puedes consultar más detalles en la sección de Normativas.
             </Typography>
           </Box>,
           document.body

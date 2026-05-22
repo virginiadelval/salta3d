@@ -92,24 +92,29 @@ class MapaInteractivoGL {
       2014,
       2017
     ]
-    FOTOS_HISTORICAS_ANO.forEach((year) =>
-      this.map.setLayoutProperty(
-        `fotografias_aereas_${year}_caba_3857`,
-        'visibility',
-        'none'
-      )
-    )
+    FOTOS_HISTORICAS_ANO.forEach((year) => {
+      const layerId = `fotografias_aereas_${year}_caba_3857`
+      if (this.map.getLayer(layerId)) {
+        this.map.setLayoutProperty(
+          layerId,
+          'visibility',
+          'none'
+        )
+      }
+    })
 
-    if (this.isVisibleBaseLayerPrincipal()) {
-      this.map.setLayoutProperty('baseLayer_principal', 'visibility', 'none')
-      this.map.setLayoutProperty(
-        'baseLayer_secundario',
-        'visibility',
-        'visible'
-      )
-    } else {
-      this.map.setLayoutProperty('baseLayer_principal', 'visibility', 'visible')
-      this.map.setLayoutProperty('baseLayer_secundario', 'visibility', 'none')
+    if (this.map.getLayer('baseLayer_principal') && this.map.getLayer('baseLayer_secundario')) {
+      if (this.isVisibleBaseLayerPrincipal()) {
+        this.map.setLayoutProperty('baseLayer_principal', 'visibility', 'none')
+        this.map.setLayoutProperty(
+          'baseLayer_secundario',
+          'visibility',
+          'visible'
+        )
+      } else {
+        this.map.setLayoutProperty('baseLayer_principal', 'visibility', 'visible')
+        this.map.setLayoutProperty('baseLayer_secundario', 'visibility', 'none')
+      }
     }
   }
 

@@ -14,28 +14,13 @@ import { Warning } from '@mui/icons-material'
 import ContainerBar from 'components/Sections/ContainerBar'
 import { actions } from 'state/ducks/reports'
 import { useDispatch, useSelector } from 'react-redux'
-import { CADAnalytics } from 'utils/reactga4'
 
 import styles from './styles'
 
-const Item = ({ smp, address, cadLink, state, onClick }) => {
+const Item = ({ smp, address, state, onClick }) => {
   return (
     <Card sx={styles.card}>
       <Typography variant="subtitle1">SMP: {smp}:</Typography>
-      <Tooltip title="descarga Archivo CAD">
-        <IconButton
-          onClick={() => {
-            CADAnalytics('CAD_download')
-            window.open(cadLink, '_blank')
-          }}
-          sx={styles.icon}
-        >
-          <img
-            src="https://epok.buenosaires.gob.ar/media/repok/uploads/mapainteractivoba/Archivo_CAD__.png"
-            width="24px"
-          />
-        </IconButton>
-      </Tooltip>
       {state === 'ready' && (
         <Tooltip title="descarga Certificado Urbanístico">
           <IconButton onClick={() => onClick('PDF')} sx={styles.icon}>
@@ -62,7 +47,7 @@ const Report = () => {
   const reports = useSelector((state) => state.reports)
 
   const handleOnClick = (type, key) => {
-    if (type === 'pdf') {
+    if (type.toLowerCase() === 'pdf') {
       dispatch(actions.download(key))
     }
   }
@@ -75,13 +60,12 @@ const Report = () => {
 
   return (
     <ContainerBar type="list">
-      {Object.entries(reports).map(([key, { state, address, cadLink }]) => (
+      {Object.entries(reports).map(([key, { state, address }]) => (
         <Item
           key={key}
           smp={key}
           state={state}
           address={address}
-          cadLink={cadLink}
           onClick={(type) => handleOnClick(type, key)}
         />
       ))}

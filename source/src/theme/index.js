@@ -4,7 +4,7 @@ import { red } from '@mui/material/colors'
 const spacing = 8
 const theme = createTheme({
   typography: {
-    allVariants: { fontFamily: ['"Nunito"', 'Open Sans'].join(',') },
+    allVariants: { fontFamily: ['"Manrope"', 'sans-serif'].join(',') },
     caption: {
       letterSpacing: 0,
       fontSize: '11.5px',
@@ -12,13 +12,19 @@ const theme = createTheme({
     },
 
     h5: {
-      fontSize: '1.5rem'
+      fontFamily: ['"Montserrat"', 'sans-serif'].join(','),
+      fontSize: '1.5rem',
+      fontWeight: 700
     },
     subtitle1: {
-      fontSize: '14px'
+      fontFamily: ['"Montserrat"', 'sans-serif'].join(','),
+      fontSize: '14px',
+      fontWeight: 600
     },
     subtitle2: {
-      fontSize: '12px'
+      fontFamily: ['"Montserrat"', 'sans-serif'].join(','),
+      fontSize: '12px',
+      fontWeight: 600
     }
   },
   palette: {

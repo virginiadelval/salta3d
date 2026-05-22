@@ -19,7 +19,7 @@ export default async (sections, fileName) => {
     doc.addImage(imgLogo, 'JPEG', 6, 4.5, 20, 20)
     doc.setFont(fontName, 'bold')
     doc.setFontSize(15)
-    doc.text('Certificado Urbanístico - Ciudad 3D ', 33, 17)
+    doc.text('Certificado Urbanístico - IDEMSa ', 33, 17)
     y += 15
     doc.setDrawColor(254, 211, 4) // color de linea
     doc.setLineWidth(0.6) // grosor de la linea
@@ -83,16 +83,16 @@ export default async (sections, fileName) => {
   doc.setFont(fontName, 'italic')
 
   const firstMessage =
-    '"Esta información no sustituye las normas legales vigentes ni constituye una copia fiel de los datos en poder del Gobierno de la Ciudad de Buenos Aires. Es responsabilidad del usuario confirmar mediante la vía administrativa pertinente la información provista en este sitio previo a alguna toma de decisión o acción.'
+    '"Esta información no sustituye las normas legales vigentes ni constituye una copia fiel de los datos en poder de la Municipalidad de la Ciudad de Salta. Es responsabilidad del usuario confirmar mediante la vía administrativa pertinente la información provista en este sitio previo a alguna toma de decisión o acción.'
   inlineText({ text: firstMessage })
   y += 5
   const seccodMessage =
-    'La información provista por esta página web es orientativa y no vinculante, al momento de realizar un trámite ante Gobierno de la Ciudad de Buenos Aires."'
+    'La información provista por esta página web es orientativa y no vinculante, al momento de realizar un trámite ante la Municipalidad de la Ciudad de Salta."'
   inlineText({ text: seccodMessage })
   y += 10
 
   const note =
-    'Nota: La Ley 6099/18 Código Urbanístico fue modificada por Ley 6361/20, por tal motivo deberán ser consultadas ambas leyes para la correcta identificación de los artículos que han sido sustituidos y/o incorporados en la modificación.'
+    'Nota: La normativa urbanística aplicable corresponde al Código de Planeamiento Urbano Ambiental (CPUA) y al Código de Edificación de la Ciudad de Salta, con sus respectivas modificaciones y actualizaciones vigentes.'
   inlineText({ text: note })
   y += 5
 

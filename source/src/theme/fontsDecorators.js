@@ -5,7 +5,7 @@ const decorators = {
     fontWeight: 'bold'
   },
   openSans: {
-    fontFamily: 'Open Sans'
+    fontFamily: 'Manrope'
   },
   marginTop_md: {
     marginTop: theme.spacing(1)

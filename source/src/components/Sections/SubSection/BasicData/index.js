@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import PropTypes from 'prop-types'
 
-import { Box, Typography, Grid, makeStyles, Link } from '@mui/material'
+import { Box, Typography, Grid, makeStyles, Link, TextField, Button, CircularProgress, Alert } from '@mui/material'
 
 import decorators from 'theme/fontsDecorators'
 
@@ -10,7 +10,9 @@ import ContainerBar from 'components/Sections/ContainerBar'
 import SelectParcel from 'components/Sections/SubSection/SelectParcel'
 import Carrousel from 'components/Carrousel'
 
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { actions as parcelActions } from 'state/ducks/parcel'
+import { actions as basicDataActions } from 'state/ducks/basicData'
 
 import { getBasicData } from 'utils/configQueries'
 
@@ -61,8 +63,128 @@ const BasicData = () => {
   const isSelected = useSelector((state) => state.basicData.isSelected)
   const { photoData } = data
 
+  const dispatch = useDispatch()
+  const [searchCatastro, setSearchCatastro] = useState('')
+  const [isSearching, setIsSearching] = useState(false)
+  const [searchError, setSearchError] = useState('')
+
+  const handleSearchSubmit = async (e) => {
+    e.preventDefault()
+    if (!searchCatastro.trim()) return
+
+    setIsSearching(true)
+    setSearchError('')
+
+    try {
+      const actionResult = await dispatch(basicDataActions.seekerParcel(searchCatastro.trim()))
+      if (basicDataActions.seekerParcel.rejected.match(actionResult)) {
+        throw new Error(actionResult.error.message || 'Catastro no encontrado o error en la búsqueda.')
+      }
+      setSearchCatastro('')
+    } catch (err) {
+      console.error(err)
+      setSearchError(err.message || 'Error en la búsqueda.')
+    } finally {
+      setIsSearching(false)
+    }
+  }
+
+  const handleClearParcel = () => {
+    dispatch(parcelActions.clean())
+    dispatch(basicDataActions.clean())
+  }
+
   return (
     <ContainerBar type="list">
+      {/* Search box always visible at the top */}
+      <Box sx={{
+        p: 2,
+        mb: 2.5,
+        borderRadius: 2,
+        backgroundColor: '#fff',
+        border: '1px solid rgba(0, 0, 0, 0.08)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
+      }}>
+        <Typography variant="subtitle2" sx={{ ...decorators.bold, mb: 1.5, color: '#333' }}>
+          Consulta por Número de Catastro
+        </Typography>
+        <form onSubmit={handleSearchSubmit}>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <TextField
+              value={searchCatastro}
+              onChange={(e) => setSearchCatastro(e.target.value)}
+              placeholder="Ingresar número (ej. 163158)"
+              size="small"
+              fullWidth
+              variant="outlined"
+              disabled={isSearching}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 1.5,
+                  backgroundColor: '#fafafa',
+                }
+              }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={isSearching}
+              sx={{
+                borderRadius: 1.5,
+                textTransform: 'none',
+                fontWeight: 'bold',
+                px: 3,
+                backgroundColor: '#1976d2',
+                '&:hover': {
+                  backgroundColor: '#115293',
+                }
+              }}
+            >
+              {isSearching ? <CircularProgress size={20} color="inherit" /> : 'Buscar'}
+            </Button>
+          </Box>
+        </form>
+        {searchError && (
+          <Alert severity="error" sx={{ mt: 1.5, borderRadius: 1.5, py: 0.5 }}>
+            {searchError}
+          </Alert>
+        )}
+
+        {/* If parcel is selected, display a clear option / active indicator */}
+        {isSelected && data && data.smp && (
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            mt: 1.5,
+            pt: 1.5,
+            borderTop: '1px dashed rgba(0,0,0,0.1)'
+          }}>
+            <Typography variant="body2" sx={{ fontWeight: 'bold', color: '#1a237e' }}>
+              Catastro Activo: {data.smp}
+            </Typography>
+            <Button
+              variant="text"
+              size="small"
+              onClick={handleClearParcel}
+              sx={{
+                textTransform: 'none',
+                color: '#d32f2f',
+                fontWeight: 'bold',
+                p: 0,
+                minWidth: 0,
+                '&:hover': {
+                  backgroundColor: 'transparent',
+                  textDecoration: 'underline'
+                }
+              }}
+            >
+              Cambiar Parcela
+            </Button>
+          </Box>
+        )}
+      </Box>
+
       {isSelected && (
         <Box>
           {!!photoData?.length && <Carrousel photos={photoData} />}
@@ -74,7 +196,7 @@ const BasicData = () => {
               fill === 'superficie_parcela'
                 ? superficieParcela?.toString()
                 : data[fills[0]]
-            if (valueFill) {
+            if (valueFill !== undefined && valueFill !== null && valueFill !== '') {
               value.push(
                 isNumber
                   ? Number.parseFloat(valueFill).toLocaleString('es-AR')

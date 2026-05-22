@@ -11,6 +11,7 @@ import {
   getImagesToMerge
 } from 'utils/configQueries'
 import { mapOnPromise, loadImages, mergeImages } from 'utils/maplibreUtils'
+import { addWMSLayer, setWMSLayerVisibility, setWMSLayerOpacity } from 'utils/wmsLayerManager'
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
@@ -126,6 +127,77 @@ const toggle = async (layer, index, groups, isVisible = null) => {
   )
 }
 
+const toggleWmsLayer = createAsyncThunk(
+  'map/toggleWmsLayer',
+  async ({ id }, { getState }) => {
+    const state = getState()
+    const wmsLayer = state.map.wmsLayers.find((l) => l.id === id)
+    if (!wmsLayer) return { id }
+
+    const nextVisible = !wmsLayer.visible
+
+    if (mapGL && mapGL.map) {
+      const mapInstance = mapGL.map
+      if (nextVisible) {
+        addWMSLayer(mapInstance, { ...wmsLayer, visible: true })
+      } else {
+        setWMSLayerVisibility(mapInstance, id, false)
+      }
+
+      // Synchronize layer drawing order
+      const wmsLayers = state.map.wmsLayers.map((l) =>
+        l.id === id ? { ...l, visible: nextVisible } : l
+      )
+      for (let i = wmsLayers.length - 1; i >= 0; i--) {
+        const layer = wmsLayers[i]
+        if (layer.visible && mapInstance.getLayer(layer.id)) {
+          mapInstance.moveLayer(layer.id)
+        }
+      }
+    }
+    return { id, visible: nextVisible }
+  }
+)
+
+const changeWmsLayerOpacity = createAsyncThunk(
+  'map/changeWmsLayerOpacity',
+  async ({ id, opacity }) => {
+    if (mapGL && mapGL.map) {
+      setWMSLayerOpacity(mapGL.map, id, opacity)
+    }
+    return { id, opacity }
+  }
+)
+
+const zoomToWmsLayer = createAsyncThunk(
+  'map/zoomToWmsLayer',
+  async ({ id }, { getState }) => {
+    const state = getState()
+    const wmsLayer = state.map.wmsLayers.find((l) => l.id === id)
+    if (wmsLayer && wmsLayer.boundingBox && mapGL && mapGL.map) {
+      mapGL.map.fitBounds(wmsLayer.boundingBox, { padding: 50 })
+    }
+  }
+)
+
+const moveWmsLayer = createAsyncThunk(
+  'map/moveWmsLayer',
+  async ({ id, direction }, { dispatch, getState }) => {
+    dispatch(map.actions.reorderWmsLayer({ id, direction }))
+    if (mapGL && mapGL.map) {
+      const state = getState()
+      const wmsLayers = state.map.wmsLayers
+      const mapInstance = mapGL.map
+      for (let i = wmsLayers.length - 1; i >= 0; i--) {
+        const layer = wmsLayers[i]
+        if (mapInstance.getLayer(layer.id)) {
+          mapInstance.moveLayer(layer.id)
+        }
+      }
+    }
+  }
+)
+
 const loadLayers = createAsyncThunk('map/loadLayers', async () => {
   await loadAppConfig()
 
@@ -155,10 +227,18 @@ const loadLayers = createAsyncThunk('map/loadLayers', async () => {
   })
 
   const baseLayers = getBaseLayers()
+  let wmsLayers = []
+  try {
+    wmsLayers = await fetch('./wmsConfig.json').then((res) => res.json())
+  } catch (err) {
+    console.error('Error fetching wmsConfig.json:', err)
+  }
+
   return {
     explorerLayers,
     groups,
-    baseLayers
+    baseLayers,
+    wmsLayers
   }
 })
 
@@ -300,7 +380,8 @@ const map = createSlice({
     camera: null,
     selectedCoords: null,
     groups: {},
-    explorerLayers: {}
+    explorerLayers: {},
+    wmsLayers: []
   },
   reducers: {
     isMeasureActive: (draftState, { payload: isActive }) => {
@@ -332,6 +413,20 @@ const map = createSlice({
     },
     clickOnMap: (draftState, action) => {
       draftState.selectedCoords = action.payload
+    },
+    reorderWmsLayer: (draftState, { payload: { id, direction } }) => {
+      const index = draftState.wmsLayers.findIndex((l) => l.id === id)
+      if (index === -1) return
+
+      if (direction === 'up' && index > 0) {
+        const temp = draftState.wmsLayers[index]
+        draftState.wmsLayers[index] = draftState.wmsLayers[index - 1]
+        draftState.wmsLayers[index - 1] = temp
+      } else if (direction === 'down' && index < draftState.wmsLayers.length - 1) {
+        const temp = draftState.wmsLayers[index]
+        draftState.wmsLayers[index] = draftState.wmsLayers[index + 1]
+        draftState.wmsLayers[index + 1] = temp
+      }
     }
   },
   extraReducers: {
@@ -381,18 +476,32 @@ const map = createSlice({
         layerState.processingId = null
       }
     },
+    [toggleWmsLayer.fulfilled]: (draftState, { payload: { id, visible } }) => {
+      const layer = draftState.wmsLayers.find((l) => l.id === id)
+      if (layer) {
+        layer.visible = visible
+      }
+    },
+    [changeWmsLayerOpacity.fulfilled]: (draftState, { payload: { id, opacity } }) => {
+      const layer = draftState.wmsLayers.find((l) => l.id === id)
+      if (layer) {
+        layer.opacity = opacity
+      }
+    },
     [loadLayers.fulfilled]: (
       draftState,
       {
         payload: {
           explorerLayers,
           groups,
-          baseLayers: { sources, layers, light }
+          baseLayers: { sources, layers, light },
+          wmsLayers
         }
       }
     ) => {
       draftState.groups = groups
       draftState.explorerLayers = explorerLayers
+      draftState.wmsLayers = wmsLayers || []
       draftState.camera = getCamera()
       draftState.defaultMapStyle = {
         version: 8,
@@ -414,6 +523,10 @@ const actions = {
   selectedExplorerFilter,
   filterUpdate,
   removeLayer,
-  loadLayers
+  loadLayers,
+  toggleWmsLayer,
+  changeWmsLayerOpacity,
+  zoomToWmsLayer,
+  moveWmsLayer
 }
 export { actions }

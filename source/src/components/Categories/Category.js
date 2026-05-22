@@ -16,11 +16,10 @@ const Icon = ({ path, isSelected }) => (
   <SvgIcon
     sx={{
       ...styles['icon'],
-      color: isSelected && '#fed304',
+      color: isSelected ? '#f96332' : 'inherit',
       width: '100%!important'
     }}
     component="div"
-    color={isSelected ? 'primary' : 'disabled'}
   >
     {path}
   </SvgIcon>
@@ -53,7 +52,15 @@ const Category = ({ id, path, title, url }) => {
         dispatch(actions.categorySelected(id))
         sectionsAnalytics(title)
       }}
-      sx={styles.option}
+      sx={{
+        ...styles.option,
+        color: isSelected ? '#f96332' : '#a3a7ad',
+        backgroundColor: isSelected ? 'rgba(249, 99, 50, 0.08)' : 'transparent',
+        '&:hover': {
+          color: '#f96332',
+          backgroundColor: 'rgba(249, 99, 50, 0.04)'
+        }
+      }}
     >
       <Icon path={path} isSelected={isSelected} />
       <Typography
@@ -62,7 +69,7 @@ const Category = ({ id, path, title, url }) => {
           letterSpacing: 0,
           fontSize: '11.5px',
           lineHeight: '17px',
-          fontWeight: '400'
+          fontWeight: isSelected ? '700' : '400'
         }}
       >
         {title}

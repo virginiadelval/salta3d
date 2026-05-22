@@ -8,6 +8,7 @@ import { actions as mapActions } from 'state/ducks/map'
 import { actions as seekerActions } from 'state/ducks/seeker'
 
 import { getApiUrl, getFullLayerConfigByIdLayer } from 'utils/configQueries'
+import { fetchWmsGetFeatureInfo } from 'utils/wmsLayerManager'
 
 import MapaInteractivoGL from 'utils/MapaInteractivoGL'
 
@@ -22,12 +23,9 @@ import decorators from 'theme/fontsDecorators'
 
 import imgCapaBasePrincipal from 'img/capabase_1.png'
 import imgCapaBaseSecundaria from 'img/capabase_2.png'
-import imgCapaBaseHistory from 'img/capabase_history.png'
 
 import PropTypes from 'prop-types'
 import styles from './styles'
-
-const mockupHistory = [1940, 1965, 1978, 2004, 2006, 2008, 2009, 2014, 2017]
 
 const MinimapOption = ({ imageUrl, text, children, ...otherProps }) => {
   return (
@@ -74,8 +72,6 @@ const Map = ({ children }) => {
   const cameraBearing = useSelector((state) => state.map.camera?.bearing)
 
   const [mapGL, setMapGL] = useState(null)
-  const [_, setBottomMenuVisible] = useState(false)
-  const [historyMenu, setHistoryMenuVisible] = useState(false)
 
   const dispatch = useDispatch()
   const [capabasePrincipal, setCapabasePrincipal] = useState(true)
@@ -149,6 +145,98 @@ const Map = ({ children }) => {
     }
   }, [capabasePrincipal, mapGL, isMapReady])
 
+  const selectedCoords = useSelector((state) => state.map.selectedCoords)
+  const wmsLayers = useSelector((state) => state.map.wmsLayers)
+
+  useEffect(() => {
+    if (!isMapReady || !mapGL || !selectedCoords) return
+
+    const activeWmsWithInfo = wmsLayers.filter(
+      (l) => l.visible && l.getFeatureInfo
+    )
+
+    if (activeWmsWithInfo.length === 0) return
+
+    const fetchAllWmsInfo = async () => {
+      try {
+        const results = await Promise.all(
+          activeWmsWithInfo.map(async (layer) => {
+            try {
+              const res = await fetchWmsGetFeatureInfo(
+                mapGL.map,
+                selectedCoords,
+                layer
+              )
+              return { layer, res }
+            } catch (err) {
+              console.error(`Error querying WMS layer ${layer.name}:`, err)
+              return { layer, res: null }
+            }
+          })
+        )
+
+        const validResults = results.filter(({ res }) => res && res.data)
+        if (validResults.length === 0) return
+
+        const popupContentHtml = renderToString(
+          <div style={{ fontFamily: 'sans-serif', padding: '8px', maxWidth: '300px', maxHeight: '250px', overflowY: 'auto' }}>
+            {validResults.map(({ layer, res }, idx) => {
+              let details = null
+
+              if (res.format === 'json') {
+                const features = res.data.features || []
+                if (features.length > 0) {
+                  details = (
+                    <div>
+                      {features.map((f, fIdx) => (
+                        <div key={fIdx} style={{ marginBottom: '6px', paddingBottom: '6px', borderBottom: fIdx < features.length - 1 ? '1px dashed #ddd' : 'none' }}>
+                          {Object.entries(f.properties || {}).map(([key, val]) => (
+                            <div key={key} style={{ fontSize: '10px', margin: '2px 0', wordBreak: 'break-all' }}>
+                              <strong>{key}:</strong> {String(val)}
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  )
+                } else {
+                  details = <div style={{ fontSize: '10px', color: '#777' }}>No se encontraron elementos.</div>
+                }
+              } else if (res.format === 'html' || res.format === 'text') {
+                const cleanHtml = res.data
+                  .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+                  .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+                  .replace(/<html>|<\/html>|<body>|<\/body>|<head>|<\/head>/gi, '')
+                  .trim()
+
+                if (cleanHtml) {
+                  details = <div style={{ fontSize: '10px' }} dangerouslySetInnerHTML={{ __html: cleanHtml }} />
+                } else {
+                  details = <div style={{ fontSize: '10px', color: '#777' }}>No se encontraron elementos.</div>
+                }
+              }
+
+              return (
+                <div key={layer.id} style={{ marginBottom: idx < validResults.length - 1 ? '12px' : '0', paddingBottom: idx < validResults.length - 1 ? '12px' : '0', borderBottom: idx < validResults.length - 1 ? '1px solid #ccc' : 'none' }}>
+                  <div style={{ fontSize: '11px', fontWeight: 'bold', marginBottom: '4px', color: '#333' }}>
+                    {layer.name}
+                  </div>
+                  {details}
+                </div>
+              )
+            })}
+          </div>
+        )
+
+        mapGL.addPopup(selectedCoords, popupContentHtml)
+      } catch (err) {
+        console.error('Error getting WMS features info:', err)
+      }
+    }
+
+    fetchAllWmsInfo()
+  }, [selectedCoords, wmsLayers, mapGL, isMapReady])
+
   const defaultMapStyle = useSelector((state) => state.map.defaultMapStyle)
 
   useEffect(() => {
@@ -202,72 +290,17 @@ const Map = ({ children }) => {
     dispatch
   ])
 
-  const handlerBottomMenuEnter = () => {
-    setBottomMenuVisible(true)
-  }
-
-  const handlerBottomMenuLeave = () => {
-    setBottomMenuVisible(false)
-    setHistoryMenuVisible(false)
-  }
-
-  const handlerHistoryMenuEnter = () => {
-    setHistoryMenuVisible(true)
-  }
-
-  const handlerHistoryMenuLeave = () => {
-    setHistoryMenuVisible(false)
-  }
-
   return (
     <>
       <Box id="map" sx={styles.container}>
-        <Box
-          sx={styles.bottomMenu}
-          onMouseEnter={handlerBottomMenuEnter}
-          onMouseLeave={handlerBottomMenuLeave}
-        >
+        <Box sx={styles.bottomMenu}>
           <MinimapOption
             imageUrl={`url(${
-              capabasePrincipal ? imgCapaBasePrincipal : imgCapaBaseSecundaria
+              capabasePrincipal ? imgCapaBaseSecundaria : imgCapaBasePrincipal
             })`}
             onClick={() => setCapabasePrincipal(!capabasePrincipal)}
-            text={'MAPA'}
+            text={capabasePrincipal ? 'SATÉLITE' : 'MAPA'}
           />
-          {/* <MinimapOption
-                imageUrl={`url(${imgCapaBaseSecundaria})`}
-                onClick={() => setCapabasePrincipal(capabasePrincipal)}
-                text={'AEREA'}
-              /> */}
-          <MinimapOption
-            imageUrl={`url(${imgCapaBaseHistory})`}
-            // onClick={() => setCapabasePrincipal(!capabasePrincipal)}
-            text={'HISTÓRICA'}
-            onMouseEnter={handlerHistoryMenuEnter}
-            onMouseLeave={handlerHistoryMenuLeave}
-          >
-            <Box
-              sx={styles.historyMenu}
-              style={{
-                top: mockupHistory.length * -35 + 5
-              }}
-              onMouseEnter={handlerHistoryMenuEnter}
-              onMouseLeave={handlerHistoryMenuLeave}
-            >
-              {historyMenu && mockupHistory?.length
-                ? mockupHistory.map((year) => (
-                    <Typography
-                      variant="caption"
-                      sx={styles.historyTitle}
-                      onClick={() => mapGL.setBaseLayerByYear(year)}
-                      key={year}
-                    >
-                      {year}
-                    </Typography>
-                  ))
-                : null}
-            </Box>
-          </MinimapOption>
         </Box>
         <Measure />
         <DimensionBtn />

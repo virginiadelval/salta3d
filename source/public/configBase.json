@@ -1080,257 +1080,264 @@
   ],
   "normative": [
     {
-      "id": "UrbanCode",
-      "title": "Código Urbanístico",
-      "color": "#34485e",
+      "id": "CPUA_Doc",
+      "title": "Código de Planeamiento Urbano Ambiental - CPUA",
+      "description": "Rige el ordenamiento territorial y la gestión urbana en el Municipio de Salta.",
+      "color": "#e20613",
       "link": [
         {
-          "text": "Cuerpo Principal – Código Urbanístico",
-          "url": "{{urlBsAs}}sites/default/files/2023-03/2022.12.31_CU_Cuerpo Principal.pdf"
+          "text": "Código de Planeamiento Urbano Ambiental II (2025) - Oficial Municipio",
+          "url": "https://municipalidadsalta.gob.ar/wp-content/uploads/2026/01/1.CODIGO-PLANEAMIENTO%202025-VERSION-PARA-USO.pdf"
         },
         {
-          "text": "Ley N° 6776/24 - Modificación Código Urbanístico",
-          "url": "./Normative/LEY-6776.pdf"
+          "text": "Código de Planeamiento Urbano Ambiental II (2025) - Alternativo CAS",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/CODIGO-PLANEAMIENTO-2025-VERSION-PARA-EL-USO.pdf"
         },
         {
-          "text": "Ley N° 6564/22 – Modificación Código Urbanístico",
-          "url": "{{urlBoletin}}ck_PL-LEY-LCABA-LCBA-6564-22-6469.pdf"
+          "text": "Código de Planeamiento Urbano Ambiental (C.P.U.A.) (2010)",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/2.CPUA_Compendio-ENERO-2020.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ZoningMap",
+      "title": "Plano de Zonificación de Usos de Suelos",
+      "description": "Planos de zonificación urbana generales y específicos del Área Centro.",
+      "color": "#18b596",
+      "link": [
+        {
+          "text": "Abrir Visor de Planificación (IDEMSA)",
+          "url": "https://idemsa.municipalidadsalta.gob.ar/visor/maps/planificacion.html"
         },
         {
-          "text": "Ley N° 6361/20 – Modificación Código Urbanístico",
-          "url": "{{urlBoletin}}ck_PL-LEY-LCABA-LCBA-6361-20-6020.pdf"
+          "text": "Descargar Plano General (Visor Drive)",
+          "url": "https://drive.google.com/file/d/1FzWJKt2BU5EMTwlYg1AUiHRaqShj0zPT/view?usp=sharing"
         },
         {
-          "text": "Ley N° 6099/18 – Código Urbanístico",
-          "url": "{{urlBoletin}}ck_PL-LEY-LCABA-LCBA-6099-18-5526.pdf"
+          "text": "1.1 Zonificación Mapa General 2018 (PDF)",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/1.1-Zonificacion-Mapa-general-2018.pdf"
         },
         {
-          "text": "Anexo I – Listado de Inmuebles Catalogados",
-          "url": "{{urlBsAs}}sites/default/files/2023-03/2022.12.31_ANEXO I_Listado de Inmuebles Catalogados.pdf"
+          "text": "1.2 Zonificación Área Centro Municipalidad (PDF)",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/1.2-Zonificacion-Area-Centro-Municipalidad.pdf"
         },
         {
-          "text": "Anexo II – Áreas Especiales",
-          "url": "{{urlBsAs}}sites/default/files/2023-10/2022.12.31_ANEXO II_Áreas Especiales Individualizadas.pdf"
-        },
+          "text": "1.3 Zonificación Área Centro CoPAUPS (PDF)",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/1.3-Zonificacion-Area-Centro-CoPAUPS.pdf"
+        }
+      ]
+    },
+    {
+      "id": "SheetsAndGraphics",
+      "title": "Planillas y Gráficos",
+      "description": "Planillas y gráficos del código en alta calidad desde la carpeta oficial.",
+      "color": "#f39c12",
+      "link": [
         {
-          "text": "Anexo III – Atlas",
-          "url": "{{urlCDN2}}desarrollourbano/2022.12.31_ANEXO III_Atlas.pdf"
-        },
-        {
-          "text": "Planchetas Código Urbanístico",
-          "url": "{{urlBsAs}}sites/default/files/2023-03/2022.12.31_ANEXO IV_Planchetas de Edificabilidad y Usos.pdf"
-        },
-        {
-          "text": "Decreto reglamentario del Código Urbanístico 99/2019",
-          "url": "{{urlBsAs}}sites/default/files/media/document/2019/03/12/dc4315de2c9865587c86038beeaf4c2beb226ff7.pdf"
-        },
-        {
-          "text": "Anexo I Decreto reglamentario del Código Urbanístico",
-          "url": "{{urlBsAs}}sites/default/files/media/document/2019/03/12/7e0212b00aaaac612e4b38e9cac1eccff2e7c370.pdf"
-        },
-        {
-          "text": "Decreto 85/19 reglamentario del procedimiento de la Ley N° 123 de Impacto ambiental",
-          "url": "{{urlBsAs}}sites/default/files/media/document/2019/03/13/689734c47550655a9579fe6bf9e8d7159757cf7f.pdf"
-        },
-        {
-          "text": "Anexo Decreto 85/19",
-          "url": "{{urlBoletin}}PE-DEC-AJG-AJG-85-19-ANX.pdf"
-        },
-        {
-          "text": "Decreto 86/19 reglamentario de la Ley N° 2.216",
-          "url": "{{urlBsAs}}sites/default/files/media/document/2019/03/13/c4c81cade5158ddcb25a816dea402735c3479c51.pdf"
-        },
-        {
-          "text": "Anexo Decreto 86/19",
-          "url": "{{urlBoletin}}PE-DEC-AJG-AJG-86-19-ANX.pdf"
-        },
-        {
-          "text": "Decreto 87/19 sobre cuadros de asimilación de usos históricos a los actuales vigentes",
-          "url": "{{urlBsAs}}sites/default/files/media/document/2019/03/13/22f27d72e023d8f85fe403c92f9d78ccc2c712a0.pdf"
-        },
-        {
-          "text": "Anexo Decreto 87/19",
-          "url": "{{urlBoletin}}PE-DEC-AJG-AJG-87-19-ANX.pdf"
-        },
-        {
-          "text": "Código de Planeamiento Urbano",
-          "url": "./Normative/texto_cpu_al_21_de_dic_2018.pdf"
+          "text": "Carpeta de Drive - Planillas y gráficos en alta calidad",
+          "url": "https://drive.google.com/drive/folders/1xMki0MXyfXI-_Oq0h6ruOiQrz3ehl0Bc?usp=drive_link"
         }
       ]
     },
     {
       "id": "Urban Heritage",
-      "title": "Patrimonio Urbanístico",
+      "title": "Patrimonio",
+      "description": "Normativas del Área Centro, normativas de CoPAUPS y formularios de solicitud.",
       "color": "#037dbf",
       "link": [
         {
-          "text": "Guía de buenas prácticas – Patrimonio Urbano",
-          "url": "{{urlBsAs}}guia-de-buenas-practicas"
+          "text": "ÁREA CENTRO (MUNICIPALIDAD DE SALTA)"
         },
         {
-          "text": "Consejo Asesor de Asuntos Patrimoniales",
-          "url": "{{urlBsAs}}jefaturadegabinete/desarrollo-urbano/normativa/consejo-asesor-de-asuntos-patrimoniales"
+          "text": "4.1. ANEXO 1 Normativa",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/4.1.-ANEXO-1-Normativa..pdf"
+        },
+        {
+          "text": "4.2. Sección C",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/4.2.-Secci%C3%B2n-C..pdf"
+        },
+        {
+          "text": "4.3. Sección B",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/4.3.-Secci%C3%B2n-B..pdf"
+        },
+        {
+          "text": "4.4. Sección E",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/4.4.-Secci%C3%B2n-E..pdf"
+        },
+        {
+          "text": "4.5. Sección D",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/4.5.-Secci%C3%B2n-D..pdf"
+        },
+        {
+          "text": "4.6. Sección H",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/4.6.-Secci%C3%B2n-H..pdf"
+        },
+        {
+          "text": "4.7. ANEXO 2 Parque San Martín",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/4.7.-ANEXO-2-Parque-San-Mart%C3%ACn.pdf"
+        },
+        {
+          "text": "4.8. ANEXO 3 Plano Zonificación",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/4.8.-ANEXO-3-Plano-Zonificaci%C3%B2n.pdf"
+        },
+        {
+          "text": "4.9. ANEXO 4 Bienes Patrimoniales",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/4.9.-ANEXO-4-Bienes-Patrimoniales.pdf"
+        },
+        {
+          "text": "4.10. ANEXO 5 Usos",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/4.10.-ANEXO-5-Usos.pdf"
+        },
+        {
+          "text": "4.11. ANEXO 6 Glosario",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/4.11.-ANEXO-6-Glosario.pdf"
+        },
+        {
+          "text": "ÁREA CENTRO (CoPAUPS)"
+        },
+        {
+          "text": "5.1.1. Solicitud C.N.O.A",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.1.1.-Solicitud-C.N.O.A..pdf"
+        },
+        {
+          "text": "5.1.2. Formulario Consulta Previa",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.1.2.-Formuario-Consulta-Previa..pdf"
+        },
+        {
+          "text": "5.1.3. Solicitud Compra Inmueble",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.1.3.-Solicitud-Compra-Inmueble..pdf"
+        },
+        {
+          "text": "5.1.4. Incorporación Bien Patrimonial",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.1.4.-Incorporaci%C3%B2n-Bien-Patrimonial.pdf"
         }
       ]
     },
     {
       "id": "Cadastre",
       "title": "Catastro",
-      "color": "#18b596",
+      "description": "Planchetas catastrales y planillas de manzanas correspondientes al PRAC 2019.",
+      "color": "#9b51e0",
       "link": [
         {
-          "text": "Ley de Catastro 6437/21",
-          "url": "{{urlBsAs}}sites/default/files/media/document/2021/12/29/7bcd260da3dc369ce7d08d660074c57e8587b732.pdf"
+          "text": "PRAC 2019"
         },
         {
-          "text": "Instructivo acreditación de titularidad y certificación de firmas",
-          "url": "./Normative/Acreditacion_de_titularidad_y_certificación_de_firmas_V1.pdf"
+          "text": "5.2.4. PRAC Normativa REVISIÓN 1 (PDF)",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.2.4.-PRAC-Normativa-REVISION-1.pdf"
         },
         {
-          "text": "Cambio de vivienda de encargado a unidad funcional"
+          "text": "5.2.3. Plano Zonificación REVISIÓN 1 (PDF)",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.2.3.-PLANO-REVISION-1.pdf"
         },
         {
-          "text": "Memoria de cálculo para el cambio de vivienda de encargado a unidad funcional",
-          "url": "./Normative/anexo_2_memoria_de_calculo_para_el_cambio_de_vivienda_de_encargado_a_unidad_funcional_2021_v2.pdf"
+          "text": "PLANCHETAS MANZANAS (PDF)"
         },
         {
-          "text": "Modelo de DDJJ para la desafectación de la vivienda del encargado",
-          "url": "./Normative/modelo_de_ddjj_para_la_desafectacion_de_la_vivienda_del_encargado_2021.pdf"
+          "text": "Sección B",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.2.1.1.-SECCION-B.pdf"
         },
         {
-          "text": "Sistema de coordenadas de la Ciudad de Buenos Aires"
+          "text": "Sección C",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.2.1.2.-SECCION-C.pdf"
         },
         {
-          "text": " Código EPSG",
-          "url": "{{urlEpsg}}search/by-name/sessionkey/4gdteeumiz/searchedTerms/9498/"
+          "text": "Sección D",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.2.1.3.-SECCION-D.pdf"
         },
         {
-          "text": "procedimiento para el cambio de coordenadas",
-          "url": "./Normative/instructivo-0f-gk-caba-2019.zip"
+          "text": "Sección E",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.2.1.4.-SECCION-E.pdf"
         },
         {
-          "text": "Paquete de Instructivos POSGAR 2007/CABA 2019",
-          "url": "./Normative/procedimiento_cambio_de_coordenadas_sistema_flores_a_sistema_gk-caba-2019_v1.pdf"
+          "text": "Sección H",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.2.1.5.-SECCION-H.pdf"
         },
         {
-          "text": "Transformación POSGAR 2007/CABA 2019 – Sistema Flores",
-          "url": "./Normative/plantilla_transformacion_pg07_sist-flores.xls"
+          "text": "Sección N",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.2.1.6.-SECCION-N.pdf"
         },
         {
-          "text": "Transformación Sistema Flores – POSGAR 2007/CABA 2019",
-          "url": "./Normative/transformacion_sist-flores_pg07.xls"
+          "text": "PLANILLAS EXCEL DE MANZANAS"
         },
         {
-          "text": "Validador Automático de Constitución de Estado Parcelario",
-          "url": "{{urlCDN2}}jefaturadegabinete/desarrollourbano/Validador_Automatico_CEP_v2.5.5.zip"
+          "text": "Excel Sección B",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.2.2.1.-SECCION-B.pdf"
         },
         {
-          "text": "Formularios de avalúo para Constitución del Estado Parcelario",
-          "url": "{{urlCDN2}}jefaturadegabinete/desarrollourbano/Formularios_avaluo_Agip.zip"
+          "text": "Excel Sección C",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.2.2.2.-SECCION-C.pdf"
         },
         {
-          "text": "Declaración Jurada de Renuncia 15 días AGIP",
-          "url": "{{urlBsAs}}sites/default/files/2023-07/DDJJ_AGIP.pdf"
+          "text": "Excel Sección D",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.2.2.3.-SECCION-D.pdf"
         },
         {
-          "text": "Declaración Jurada CEP Demolición",
-          "url": "{{urlBsAs}}sites/default/files/2023-07/DDJJ_DEMO (1).pdf"
+          "text": "Excel Sección E",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.2.2.4.-SECCION-E.pdf"
         },
         {
-          "text": "Templates para CEP, Mensura y Mensura Horizontal",
-          "url": "{{urlCDN2}}desarrollourbano/planeamiento/Templates_Mensuras_Cep_MH_v2.zip"
+          "text": "Excel Sección H",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.2.2.5.-SECCION-H.pdf"
         },
         {
-          "text": "Modelos de planos para CEP, Mensura y Mensura Horizontal",
-          "url": "{{urlCDN2}}desarrollourbano/planeamiento/Modelos_Mensuras_Cep_MH.zip"
-        }
-      ]
-    },
-    {
-      "id": "Plusvalia",
-      "title": "Plusvalía",
-      "color": "#fdd306",
-      "link": [
-        {
-          "text": "Ley de Desarrollo Urbano y Hábitat Sustentable",
-          "url": "{{urlBoletin}}ck_PL-LEY-LCABA-LCBA-6062-18-5522.pdf"
-        },
-        {
-          "text": "Ley Tarifaria",
-          "url": "https://www.agip.gob.ar/filemanager/source/Normativas/2023/tarifaria%202024.pdf"
-        },
-        {
-          "text": "Codigo Fiscal 2024",
-          "url": "https://www.colegio-escribanos.org.ar/noticias/2023_12_20_CABA-Ley-6710-Modificaciones-Codigo-Fiscal.pdf"
-        },
-        {
-          "text": "Código Fiscal",
-          "url": "./Normative/Texto_ordenado_2023_70_23_ANX.pdf"
-        },
-        {
-          "text": "Resolución de Pagos 2308/22",
-          "url": "./Normative/momento_de_pago_resol-2022-2308.pdf"
-        },
-        {
-          "text": "Resolución de Pagos 218/2023",
-          "url": "./Normative/RS-2022-48380063-GCABA-SSGU.pdf"
-        },
-        {
-          "text": "Ley de incentivos 6450/2021",
-          "url": "./Normative/ck_PL-LEY-LCABA-LCBA-6450-21-6241.pdf"
-        },
-        {
-          "text": "Ley de Regularización de Obras en Contravención. 6478/2022",
-          "url": "./Normative/Ley_de_Regularización_Obras_en_Contravención_6478_22.pdf"
-        },
-        {
-          "text": "Código de Planeamiento Urbano",
-          "url": "./Normative/texto_cpu_al_21_de_dic_2018.pdf"
+          "text": "Excel Sección N",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/5.2.2.6.-SECCION-N.pdf"
         }
       ]
     },
     {
       "id": "Edification",
       "title": "Código de Edificación",
-      "color": "#f39c12",
+      "description": "Normas y ordenanzas reguladoras de edificación, veredas y corredores.",
+      "color": "#2ecc71",
       "link": [
         {
-          "text": "Ley 6.438",
-          "url": "{{urlBsAs}}sites/default/files/media/document/2021/10/28/ceaa36563fa4ce6270c43722cb1fbd93dde21084.pdf"
+          "text": "Código de Edificación (2025) - Versión de Uso",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/CODIGO-DE-EDIFICACION-2025-VERSION-PARA-EL-USO.pdf"
         },
         {
-          "text": "Reglamentos Técnicos",
-          "url": "{{urlCDN2}}desarrollourbano/reglamentos-tecnicos-30-08-23.zip"
+          "text": "Ordenanza Nº 16487 (2025) - Boletín Oficial",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/BOLETIN-N%C2%B0-2.747-Fecha-de-Edicion-03-de-Diciembre-2025-EDICION-ESPECIAL-CONTIENE-FIRMA-DIGITAL.pdf"
+        },
+        {
+          "text": "Código de Edificación (2009) - Ordenanza 13.778",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/Ordenanza-13.778%20(C%C3%B3d%20Edific).pdf"
+        },
+        {
+          "text": "Ordenanza 14195 - Corredor Belgrano",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/6.Ord-14195-Corredor-Belgrano.pdf"
+        },
+        {
+          "text": "Ordenanza 16329/24",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/ORDENANZA%2016329_24.pdf"
+        },
+        {
+          "text": "Ordenanza de Veredas",
+          "url": "https://www.colarqsalta.org.ar/public/descargas/normativas/edilicias/10.-Ordenanza-vereda.pdf"
         }
       ]
     },
     {
       "id": "Manuals and Instructions",
       "title": "Manuales e Instructivos",
+      "description": "Acceso directo y guías de uso de la Plataforma Digital de Obras Privadas.",
       "color": "#e74c3c",
       "link": [
         {
-          "text": "Manual de Tramites DGROC",
-          "url": "./Normative/PROCESO_DE_OBRA_HOY_26_ABRIL_2023.pdf"
+          "text": "ACCESO A LA PLATAFORMA DIGITAL",
+          "url": "https://obrasprivadassalta.com.ar/prof2041wq/"
         },
         {
-          "text": "DDJJ de Responsabilidad Profesional",
-          "url": "./Normative/Anexo_DDJJ_profesional.pdf"
-        },
-        {
-          "text": "Ejemplos de Cómputo y Planillas de Superficies para el cálculo de Plusvalía",
-          "url": "{{urlBsAs}}sites/default/files/media/document/2021/12/22/03b2e32878698bd454e39ed964490abf89916ad6.pdf"
-        },
-        {
-          "text": "DDJJ de Titularidad del Inmueble",
-          "url": "./Normative/DECLARACION_JURADA_DE_TITULARIDAD_DE_INMUEBLE.pdf"
+          "text": "Video Instructivo de la Plataforma (YouTube)",
+          "url": "https://youtu.be/3HtzmDJoyq4"
         }
       ]
     }
   ],
   "basicData": [
     {
-      "title": "Sección-Manzana-Parcela",
+      "title": "Catastro",
       "fill": "smp",
       "format": ""
     },
@@ -1345,54 +1352,104 @@
       "format": ""
     },
     {
-      "title": "Comuna",
+      "title": "Municipio",
       "fill": "comuna",
       "format": ""
     },
     {
-      "title": "Croquis de Parcela",
-      "fill": "croquis_parcela,Ver Plano",
-      "format": "url"
+      "title": "Distrito Catastral",
+      "fill": "distrito",
+      "format": ""
     },
     {
-      "title": "Perímetro de Manzana",
-      "fill": "perimetro_manzana,Ver Plano",
-      "format": "url"
+      "title": "Latitud",
+      "fill": "latitud",
+      "format": ""
     },
     {
-      "title": "Plano Índice",
-      "fill": "plano_indice,Ver Plano",
-      "format": "url"
+      "title": "Longitud",
+      "fill": "longitud",
+      "format": ""
     },
     {
-      "title": "Superficie edificada",
-      "fill": "superficie_cubierta",
-      "format": "m²",
-      "isNumber": true
+      "title": "Zonificación / Distrito CPUA",
+      "fill": "zoning_distrito",
+      "format": ""
     },
     {
-      "title": "Superficie de parcela",
-      "fill": "superficie_parcela",
-      "format": "m²",
-      "isNumber": true
+      "title": "Zonificación / F.O.S.",
+      "fill": "zoning_fos",
+      "format": ""
     },
     {
-      "title": "Cantidad total de unidades funcionales",
-      "fill": "unidades_funcionales",
-      "format": "",
-      "isNumber": true
+      "title": "Zonificación / F.O.T. Privado",
+      "fill": "zoning_fot_privado",
+      "format": ""
     },
     {
-      "title": "Cantidad de pisos sobre rasantes",
-      "fill": "pisos_sobre_rasante",
-      "format": "",
-      "isNumber": true
+      "title": "Zonificación / F.O.T. Público",
+      "fill": "zoning_fot_publico",
+      "format": ""
     },
     {
-      "title": "Cantidad de pisos bajo rasantes",
-      "fill": "pisos_bajo_rasante",
-      "format": "",
-      "isNumber": true
+      "title": "Zonificación / Altura Máxima",
+      "fill": "zoning_altura_m",
+      "format": " m"
+    },
+    {
+      "title": "Zonificación / Retiro de Fondo",
+      "fill": "zoning_retiro_fondo",
+      "format": ""
+    },
+    {
+      "title": "Zonificación / Retiro de Frente",
+      "fill": "zoning_retiro_frente",
+      "format": ""
+    },
+    {
+      "title": "Zonificación / Criterio",
+      "fill": "zoning_criterio",
+      "format": ""
+    },
+    {
+      "title": "Zonificación / Área",
+      "fill": "zoning_area",
+      "format": ""
+    },
+    {
+      "title": "Zonificación / Área 2",
+      "fill": "zoning_area2",
+      "format": ""
+    },
+    {
+      "title": "Propietario (PH)",
+      "fill": "owner_name",
+      "format": ""
+    },
+    {
+      "title": "Documento (PH)",
+      "fill": "owner_document",
+      "format": ""
+    },
+    {
+      "title": "CUIT (PH)",
+      "fill": "owner_cuit",
+      "format": ""
+    },
+    {
+      "title": "Más Valor Suelo / Tipo",
+      "fill": "mvs_tipo",
+      "format": ""
+    },
+    {
+      "title": "Más Valor Suelo / COD_LINK",
+      "fill": "mvs_cod_link",
+      "format": ""
+    },
+    {
+      "title": "Más Valor Suelo / Rango de Valor",
+      "fill": "mvs_valor_rang",
+      "format": ""
     }
   ],
   "capitalGain": [
@@ -2349,107 +2406,15 @@
     "sources": {
       "capabase_1": {
         "type": "raster",
-        "scheme": "tms",
         "tiles": [
-          "{{urlUsig}}/mapcache/tms/1.0.0/amba_con_transporte_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
+          "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
         ],
         "tileSize": 256
       },
       "capabase_2": {
         "type": "raster",
-        "scheme": "tms",
         "tiles": [
-          "{{urlUsig}}/mapcache/tms/1.0.0/fotografias_aereas_2021_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
-        ],
-        "tileSize": 256
-      },
-      "capabase_3": {
-        "type": "vector",
-        "tiles": [
-          "{{urlVectorTile}}parcela/{z}/{x}/{y}.pbf?optimize=true"
-        ],
-        "minzoom": 10,
-        "maxzoom": 18,
-        "cluster": false
-      },
-      "history_1": {
-        "type": "raster",
-        "tiles": [
-          "{{urlVectorTile}}parcela/{z}/{x}/{y}.pbf?optimize=true"
-        ],
-        "minzoom": 10,
-        "maxzoom": 18,
-        "cluster": false
-      },
-      "capabase_fotografias_aereas_1940_caba_3857": {
-        "type": "raster",
-        "scheme": "tms",
-        "tiles": [
-          "https://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/fotografias_aereas_1940_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
-        ],
-        "tileSize": 256
-      },
-      "capabase_fotografias_aereas_1965_caba_3857": {
-        "type": "raster",
-        "scheme": "tms",
-        "tiles": [
-          "https://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/fotografias_aereas_1965_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
-        ],
-        "tileSize": 256
-      },
-      "capabase_fotografias_aereas_1978_caba_3857": {
-        "type": "raster",
-        "scheme": "tms",
-        "tiles": [
-          "https://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/fotografias_aereas_1978_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
-        ],
-        "tileSize": 256
-      },
-      "capabase_fotografias_aereas_2004_caba_3857": {
-        "type": "raster",
-        "scheme": "tms",
-        "tiles": [
-          "https://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/imagen_satelital_2004_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
-        ],
-        "tileSize": 256
-      },
-      "capabase_fotografias_aereas_2006_caba_3857": {
-        "type": "raster",
-        "scheme": "tms",
-        "tiles": [
-          "https://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/imagen_satelital_2006_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
-        ],
-        "tileSize": 256
-      },
-      "capabase_fotografias_aereas_2008_caba_3857": {
-        "type": "raster",
-        "scheme": "tms",
-        "tiles": [
-          "https://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/imagen_satelital_2008_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
-        ],
-        "tileSize": 256
-      },
-      "capabase_fotografias_aereas_2009_caba_3857": {
-        "type": "raster",
-        "scheme": "tms",
-        "tiles": [
-          "https://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/imagen_satelital_2009_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
-        ],
-        "tileSize": 256
-      },
-      "capabase_fotografias_aereas_2014_caba_3857": {
-        "type": "raster",
-        "scheme": "tms",
-        "tiles": [
-          "https://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/fotografias_aereas_2014_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
-        ],
-        "tileSize": 256
-      },
-      "capabase_fotografias_aereas_2017_caba_3857": {
-        "type": "raster",
-        "scheme": "tms",
-        "tiles": [
-          "https://tiles1.usig.buenosaires.gob.ar/mapcache/tms/1.0.0/fotografias_aereas_2017_caba_3857@GoogleMapsCompatible/{z}/{x}/{y}.png"
+          "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
         ],
         "tileSize": 256
       }
@@ -2472,131 +2437,6 @@
           "visibility": "none"
         },
         "paint": {}
-      },
-      {
-        "id": "fotografias_aereas_1940_caba_3857",
-        "type": "raster",
-        "source": "capabase_fotografias_aereas_1940_caba_3857",
-        "layout": {
-          "visibility": "none"
-        },
-        "paint": {}
-      },
-      {
-        "id": "fotografias_aereas_1965_caba_3857",
-        "type": "raster",
-        "source": "capabase_fotografias_aereas_1965_caba_3857",
-        "layout": {
-          "visibility": "none"
-        },
-        "paint": {}
-      },
-      {
-        "id": "fotografias_aereas_1978_caba_3857",
-        "type": "raster",
-        "source": "capabase_fotografias_aereas_1978_caba_3857",
-        "layout": {
-          "visibility": "none"
-        },
-        "paint": {}
-      },
-      {
-        "id": "fotografias_aereas_2004_caba_3857",
-        "type": "raster",
-        "source": "capabase_fotografias_aereas_2004_caba_3857",
-        "layout": {
-          "visibility": "none"
-        },
-        "paint": {}
-      },
-      {
-        "id": "fotografias_aereas_2006_caba_3857",
-        "type": "raster",
-        "source": "capabase_fotografias_aereas_2006_caba_3857",
-        "layout": {
-          "visibility": "none"
-        },
-        "paint": {}
-      },
-      {
-        "id": "fotografias_aereas_2008_caba_3857",
-        "type": "raster",
-        "source": "capabase_fotografias_aereas_2008_caba_3857",
-        "layout": {
-          "visibility": "none"
-        },
-        "paint": {}
-      },
-      {
-        "id": "fotografias_aereas_2009_caba_3857",
-        "type": "raster",
-        "source": "capabase_fotografias_aereas_2009_caba_3857",
-        "layout": {
-          "visibility": "none"
-        },
-        "paint": {}
-      },
-      {
-        "id": "fotografias_aereas_2014_caba_3857",
-        "type": "raster",
-        "source": "capabase_fotografias_aereas_2014_caba_3857",
-        "layout": {
-          "visibility": "none"
-        },
-        "paint": {}
-      },
-      {
-        "id": "fotografias_aereas_2017_caba_3857",
-        "type": "raster",
-        "source": "capabase_fotografias_aereas_2017_caba_3857",
-        "layout": {
-          "visibility": "none"
-        },
-        "paint": {}
-      },
-      {
-        "id": "baseLayer_parcelaZ0",
-        "source": "capabase_3",
-        "layout": {
-          "visibility": "visible"
-        },
-        "minzoom": 19,
-        "source-layer": "default",
-        "type": "line",
-        "paint": {
-          "line-color": "#c0bfc1",
-          "line-width": 4
-        }
-      },
-      {
-        "id": "baseLayer_parcelaZ1",
-        "source": "capabase_3",
-        "layout": {
-          "visibility": "visible"
-        },
-        "minzoom": 17.55,
-        "maxzoom": 19,
-        "source-layer": "default",
-        "type": "line",
-        "paint": {
-          "line-color": "#c0bfc1",
-          "line-width": 2
-        }
-      },
-      {
-        "id": "baseLayer_parcelaZ2",
-        "source": "capabase_3",
-        "layout": {
-          "visibility": "visible"
-        },
-        "minzoom": 16,
-        "maxzoom": 17.55,
-        "source-layer": "default",
-        "type": "line",
-        "paint": {
-          "line-color": "#c0bfc1",
-          "line-width": 1
-        }
       }
     ],
     "light": {
@@ -2648,9 +2488,9 @@
     }
   },
   "camera": {
-    "lat": -34.614072,
-    "lng": -58.433816,
-    "zoom": 15.58,
+    "lat": -24.7859,
+    "lng": -65.4117,
+    "zoom": 12.0,
     "pitch": 0,
     "bearing": 0
   }

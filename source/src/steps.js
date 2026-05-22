@@ -10,14 +10,14 @@ export const largeScreenSteps = [
           <b>
             AVISO LEGAL: Este sitio web tiene como objetivo brindar información
             urbanística con carácter orientativo, a los efectos de facilitar la
-            comprensión del Nuevo Código Urbanístico. Esta información no
+            comprensión de las normativas vigentes. Esta información no
             sustituye las normas legales vigentes ni constituye una copia fiel
-            de los datos en poder del Gobierno de la Ciudad de Buenos Aires. Es
+            de los datos en poder de la Municipalidad de la Ciudad de Salta. Es
             responsabilidad del usuario confirmar mediante la vía administrativa
             pertinente la información provista en este sitio previo a alguna
             toma de decisión o acción. La información provista por esta página
             web es orientativa y no vinculante, al momento de realizar un
-            trámite ante Gobierno de la Ciudad de Buenos Aires.
+            trámite ante la Municipalidad de la Ciudad de Salta.
           </b>
         </p>
       </div>

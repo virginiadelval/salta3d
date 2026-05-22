@@ -11,3 +11,8 @@ debug.log
 devfile.yaml
 .idea/
 yarn-error.log
+edit_config.py
+scratch_get_capabilities.py
+scratch_layers.txt
+test_wms.js
+

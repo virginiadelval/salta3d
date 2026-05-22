@@ -35,7 +35,12 @@ root.render(
     <Provider store={store}>
       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
       <CssBaseline />
-      <ReactFontLoader fonts={[{ name: 'Nunito' }, { name: 'Open Sans' }]} />
+      <ReactFontLoader
+        fonts={[
+          { name: 'Manrope', weights: [300, 400, 500, 600, 700] },
+          { name: 'Montserrat', weights: [400, 600, 700, 800] }
+        ]}
+      />
       <App />
     </Provider>
   </ThemeProvider>

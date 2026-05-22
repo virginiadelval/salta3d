@@ -48,44 +48,8 @@ const rubroSelected = createAsyncThunk(
 const clickOnParcel = createAsyncThunk(
   'uses/clickOnParcel',
   async (smp, { dispatch }) => {
-    if (smp.length === undefined) {
-      return { smp: 'Invalido' }
-    }
-    const url = getUses(smp)
-    const urlUsesCategories = getUsesCategories()
-    const response = await fetch(url).then((res) => res.json())
-    const responseUsesCategories = await fetch(urlUsesCategories).then((res) =>
-      res.json()
-    )
-    const responseMicrocentro = await fetch(
-      getParcelasEnMicrocentro(smp)
-    ).then((res) => res.json())
-
-    const [{ usos }, usesCategories] = await Promise.all([
-      response,
-      responseUsesCategories
-    ])
-    const usesTable = await getUsesTable()
-    const data = usos
-      .map((id) => usesTable.find((ut) => ut.id === id))
-      .filter((d) => d !== undefined)
-
-    // Condiciones de alertas
-    const usosCount = data.length
-    if (usosCount > 1) {
-      dispatch(alertsActions.addId('mixtura_usos'))
-    }
-
-    if (usosCount === 0) {
-      dispatch(alertsActions.addId('no_usos'))
-    }
-
-    data?.map((uso) => {
-      uso.usesCategories = usesCategories
-      return uso
-    })
-
-    return { data, responseMicrocentro }
+    dispatch(alertsActions.clear())
+    return { data: [], responseMicrocentro: { in: false } }
   }
 )
 

@@ -14,12 +14,13 @@ const IfcPopUp = ({ openPopUp, setOpenPopUp }) => {
             sx={{
               position: 'absolute',
               zIndex: 10000,
-              bgcolor: theme.palette.secondary.main,
+              bgcolor: '#ffffff',
               left: '90px',
               top: '12px',
               width: { xs: '300px', sm: '510px' },
               padding: '20px',
-              borderRadius: '5px'
+              borderRadius: '5px',
+              boxShadow: '0px 6px 20px rgba(0,0,0,0.15)'
             }}
           >
             <IconButton

@@ -1,14 +1,14 @@
 // eslint-disable-next-line no-var
 var configs = {
   urlConfigBase: 'configBase.json',
-  urlLayers: 'https://epok-qa.gcba.gob.ar/mbtiles/',
+  urlLayers: 'layersConfig.json',
   includes: {
-    urlAPI: 'https://epok-qa.gcba.gob.ar',
+    urlAPI: 'https://epok.buenosaires.gob.ar',
     urlPhoto: 'https://fotos.usig.buenosaires.gob.ar',
     urlWsUsig: 'https://ws.usig.buenosaires.gob.ar',
     urlApiServicioGeo: 'https://ws.usig.buenosaires.gob.ar',
     urlPDF: 'http://ssplan.buenosaires.gov.ar/man_atipicas/imagenes',
-    urlCAD: 'https://epok-qa.buenosaires.gob.ar/cur3d/dxf'
+    urlCAD: 'https://epok.buenosaires.gob.ar/cur3d/dxf'
   },
   replaces: [
     {
