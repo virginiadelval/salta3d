@@ -110,6 +110,58 @@ const BasicData = () => {
     })
   }
 
+  const renderListItems = (items) => {
+    return items.map(({ title, fill, format, isNumber }, index) => {
+      const fills = fill.split(',')
+      const value = []
+
+      const valueFill =
+        fill === 'superficie_parcela'
+          ? superficieParcela?.toString()
+          : data[fills[0]]
+      if (valueFill !== undefined && valueFill !== null && valueFill !== '') {
+        value.push(
+          isNumber
+            ? Number.parseFloat(valueFill).toLocaleString('es-AR')
+            : valueFill
+        )
+      }
+      if (format === 'url' && linkImagen) {
+        value.push(linkImagen[fills[0]])
+        value.push(...fills)
+      }
+
+      let displayValue = 'Cargando. . .'
+      if (value[0] !== undefined) {
+        if (format === 'url') {
+          displayValue = value[0] ? (
+            <a
+              className="external"
+              href={value[0]}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {value[2]}
+            </a>
+          ) : 'Cargando. . .'
+        } else {
+          displayValue = `${value[0]} ${format}`.trim()
+        }
+      }
+
+      const isLast = index === items.length - 1
+
+      return (
+        <ListItem key={title} divider={!isLast}>
+          <ListItemText
+            primary={title}
+            secondary={displayValue}
+          />
+        </ListItem>
+      )
+    })
+  }
+
   const dispatch = useDispatch()
 
   const handleClearParcel = () => {
@@ -254,8 +306,10 @@ const BasicData = () => {
                   Datos de Propiedad
                 </Typography>
               </AccordionSummary>
-              <AccordionDetails sx={{ p: 1.5, pb: 0 }}>
-                {renderDetailsItems(propiedadData)}
+              <AccordionDetails sx={{ p: 1 }}>
+                <List size="small" disablePadding>
+                  {renderListItems(propiedadData)}
+                </List>
               </AccordionDetails>
             </Accordion>
           )}
@@ -267,8 +321,10 @@ const BasicData = () => {
                   Servicios
                 </Typography>
               </AccordionSummary>
-              <AccordionDetails sx={{ p: 1.5, pb: 0 }}>
-                {renderDetailsItems(serviciosData)}
+              <AccordionDetails sx={{ p: 1 }}>
+                <List size="small" disablePadding>
+                  {renderListItems(serviciosData)}
+                </List>
               </AccordionDetails>
             </Accordion>
           )}

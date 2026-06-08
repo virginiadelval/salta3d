@@ -355,7 +355,7 @@ const Map = ({ children }) => {
           />
         </Box>
         {/* <Measure /> */}
-        {/* <DimensionBtn /> */}
+        <DimensionBtn />
         {/* <VolumenButton /> */}
         <Buildings3D />
         {isMapReady && children}
