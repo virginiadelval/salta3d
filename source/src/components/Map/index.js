@@ -202,15 +202,52 @@ const Map = ({ children }) => {
                 if (features.length > 0) {
                   details = (
                     <div>
-                      {features.map((f, fIdx) => (
-                        <div key={fIdx} style={{ marginBottom: '6px', paddingBottom: '6px', borderBottom: fIdx < features.length - 1 ? '1px dashed #ddd' : 'none' }}>
-                          {Object.entries(f.properties || {}).map(([key, val]) => (
-                            <div key={key} style={{ fontSize: '10px', margin: '2px 0', wordBreak: 'break-all' }}>
-                              <strong>{key}:</strong> {String(val)}
-                            </div>
-                          ))}
-                        </div>
-                      ))}
+                      {features.map((f, fIdx) => {
+                        let propsToRender = Object.entries(f.properties || {})
+
+                        if (layer.name === 'Parcelario' || layer.id === 'wms_catastros') {
+                          propsToRender = propsToRender
+                            .filter(([key]) => {
+                              const k = key.toUpperCase()
+                              return k === 'CATASTRO' || k === 'SMP'
+                            })
+                            .map(([key, val]) => ['CATASTRO', val])
+                        } else if (
+                          layer.name === 'Zonificación de Usos del Suelo' ||
+                          layer.id === 'wms_zonificacion'
+                        ) {
+                          propsToRender = propsToRender
+                            .filter(([key]) => key.toUpperCase() === 'DISTRITO')
+                            .map(([key, val]) => ['DISTRITO', val])
+                        }
+
+                        return (
+                          <div
+                            key={fIdx}
+                            style={{
+                              marginBottom: '6px',
+                              paddingBottom: '6px',
+                              borderBottom:
+                                fIdx < features.length - 1
+                                  ? '1px dashed #ddd'
+                                  : 'none'
+                            }}
+                          >
+                            {propsToRender.map(([key, val]) => (
+                              <div
+                                key={key}
+                                style={{
+                                  fontSize: '10px',
+                                  margin: '2px 0',
+                                  wordBreak: 'break-all'
+                                }}
+                              >
+                                <strong>{key}:</strong> {String(val)}
+                              </div>
+                            ))}
+                          </div>
+                        )
+                      })}
                     </div>
                   )
                 } else {
