@@ -62,7 +62,7 @@ const BasicData = () => {
     (state) => state.buildable.data.superficie_parcela
   )
   const isSelected = useSelector((state) => state.basicData.isSelected)
-  const { photoData, regimen, actividades } = data
+  const { photoData, regimen, actividades, inmueble_protegido } = data
 
   const allBasicData = getBasicData()
   const serviciosFills = ['mvs_calle', 'mvs_af_header', 'mvs_recol', 'mvs_barrido', 'mvs_lusal', 'mvs_ev', 'mvs_semaforo']
@@ -286,6 +286,42 @@ const BasicData = () => {
         <Box>
           {!!photoData?.length && <Carrousel photos={photoData} />}
           {renderDetailsItems(generalData)}
+
+          {/* Inmueble Protegido (PRAC) Accordion */}
+          {inmueble_protegido === 'Si' && (
+            <Accordion sx={{ mt: 2, borderRadius: 2, '&:before': { display: 'none' }, border: '1px solid rgba(245, 127, 23, 0.2)', boxShadow: '0 2px 8px rgba(245, 127, 23, 0.08)' }}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ backgroundColor: '#fffde7', borderRadius: 2 }}>
+                <Typography variant="subtitle2" sx={{ ...decorators.bold, color: '#f57f17', display: 'flex', alignItems: 'center', gap: 1 }}>
+                  ⚠️ Inmueble Protegido (PRAC)
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails sx={{ p: 1 }}>
+                <List size="small" disablePadding>
+                  {data.prac_inmueble && data.prac_inmueble !== 'N/A' && (
+                    <ListItem divider sx={{ py: 0.5 }}><ListItemText primary="Inmueble / Denominación" secondary={data.prac_inmueble} secondaryTypographyProps={{ sx: { color: '#333', fontWeight: '500' } }} /></ListItem>
+                  )}
+                  {data.prac_categoria && data.prac_categoria !== 'N/A' && (
+                    <ListItem divider sx={{ py: 0.5 }}><ListItemText primary="Categoría de Protección" secondary={data.prac_categoria} /></ListItem>
+                  )}
+                  {data.prac_tipologia && data.prac_tipologia !== 'N/A' && (
+                    <ListItem divider sx={{ py: 0.5 }}><ListItemText primary="Tipología / Grado" secondary={data.prac_tipologia} /></ListItem>
+                  )}
+                  {data.prac_instrumento && data.prac_instrumento !== 'N/A' && (
+                    <ListItem divider sx={{ py: 0.5 }}><ListItemText primary="Instrumento Legal" secondary={data.prac_instrumento} /></ListItem>
+                  )}
+                  {data.prac_ficha && data.prac_ficha !== 'N/A' && (
+                    <ListItem divider sx={{ py: 0.5 }}><ListItemText primary="Ficha Nº" secondary={data.prac_ficha} /></ListItem>
+                  )}
+                  {data.prac_domicilio && data.prac_domicilio !== 'N/A' && (
+                    <ListItem divider sx={{ py: 0.5 }}><ListItemText primary="Domicilio" secondary={data.prac_domicilio} /></ListItem>
+                  )}
+                  {data.prac_numero && data.prac_numero !== 'N/A' && (
+                    <ListItem sx={{ py: 0.5 }}><ListItemText primary="Nº de Registro" secondary={data.prac_numero} /></ListItem>
+                  )}
+                </List>
+              </AccordionDetails>
+            </Accordion>
+          )}
 
           {propiedadData.length > 0 && (
             <Accordion sx={{ mt: 2, borderRadius: 2, '&:before': { display: 'none' }, border: '1px solid rgba(0,0,0,0.08)' }}>
