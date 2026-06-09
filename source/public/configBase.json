@@ -13,12 +13,7 @@
       "path": "layerGroups",
       "url": ""
     },
-    {
-      "id": "Explorer",
-      "title": "Explorar",
-      "path": "explorer",
-      "url": ""
-    },
+
     {
       "id": "Report",
       "title": "Reportes",
