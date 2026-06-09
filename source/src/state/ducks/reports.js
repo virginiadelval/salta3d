@@ -328,15 +328,6 @@ const getData = createAsyncThunk(
       comuna,
       latitud,
       longitud,
-      zoning_distrito,
-      zoning_fos,
-      zoning_fot_privado,
-      zoning_fot_publico,
-      zoning_altura_m,
-      zoning_retiro_fondo,
-      zoning_retiro_frente,
-      zoning_criterio,
-      zoning_area,
       owner_name,
       owner_document,
       owner_cuit,
@@ -446,7 +437,17 @@ const getData = createAsyncThunk(
         listByState[est][cat].push(`* ${act.actividad} (${act.subcategoria})`)
       })
 
-      Object.keys(listByState).forEach(estadoGroup => {
+      const orderedStates = ['Permitido', 'Condicionado', 'Prohibido']
+      const allStates = Object.keys(listByState).sort((a, b) => {
+        const idxA = orderedStates.indexOf(a)
+        const idxB = orderedStates.indexOf(b)
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB
+        if (idxA !== -1) return -1
+        if (idxB !== -1) return 1
+        return a.localeCompare(b)
+      })
+
+      allStates.forEach(estadoGroup => {
         activitiesDataList.push({
           name: `--- Actividades con Estado: ${estadoGroup} ---`,
           value: ''
@@ -546,47 +547,7 @@ const getData = createAsyncThunk(
           }
         ]
       },
-      {
-        title: 'Zonificación de Usos del Suelo',
-        dataList: [
-          {
-            name: 'Distrito CPUA',
-            value: zoning_distrito ?? 'N/A'
-          },
-          {
-            name: 'F.O.S. (Factor de Ocupación del Suelo)',
-            value: zoning_fos ? zoning_fos.toString() : 'N/A'
-          },
-          {
-            name: 'F.O.T.Privado',
-            value: zoning_fot_privado ? zoning_fot_privado.toString() : 'N/A'
-          },
-          {
-            name: 'F.O.T.Público',
-            value: zoning_fot_publico ? zoning_fot_publico.toString() : 'N/A'
-          },
-          {
-            name: 'Altura Máxima',
-            value: zoning_altura_m ? (zoning_altura_m === 'N/A' ? 'N/A m' : `${zoning_altura_m.toString()} m`) : 'N/A m'
-          },
-          {
-            name: 'Retiro de Fondo',
-            value: zoning_retiro_fondo ? zoning_retiro_fondo.toString() : 'N/A'
-          },
-          {
-            name: 'Retiro de Frente',
-            value: zoning_retiro_frente ? zoning_retiro_frente.toString() : 'N/A'
-          },
-          {
-            name: 'Criterio',
-            value: zoning_criterio ?? 'N/A'
-          },
-          {
-            name: 'Área',
-            value: zoning_area ? zoning_area.toString() : 'N/A'
-          }
-        ]
-      },
+
       {
         title: 'Régimen Urbanístico (Base de Datos)',
         dataList: regimen ? [

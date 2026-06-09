@@ -184,7 +184,17 @@ const BasicData = () => {
       grouped[estado][cat].push(act)
     })
 
-    return Object.entries(grouped).map(([estado, categories]) => {
+    const orderedStates = ['Permitido', 'Condicionado', 'Prohibido']
+    const entries = Object.entries(grouped).sort(([stateA], [stateB]) => {
+      const idxA = orderedStates.indexOf(stateA)
+      const idxB = orderedStates.indexOf(stateB)
+      if (idxA !== -1 && idxB !== -1) return idxA - idxB
+      if (idxA !== -1) return -1
+      if (idxB !== -1) return 1
+      return stateA.localeCompare(stateB)
+    })
+
+    return entries.map(([estado, categories]) => {
       let titleColor = '#2e7d32' // Green for Permitido
       if (estado.toLowerCase().includes('prohibid')) {
         titleColor = '#c62828' // Red for Prohibido
