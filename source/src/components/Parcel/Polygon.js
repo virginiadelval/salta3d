@@ -5,12 +5,23 @@ import { getParcelLayer } from 'utils/configQueries'
 import MapaInteractivoGL from 'utils/MapaInteractivoGL'
 import IFC from 'components/IFC'
 const parcelId = 'parcel_layer'
+// Añadir pleta de colores//
+function styleCatastros(feature) {
+  return {
+    fillColor: '#000000',
+    weight: 1.5,
+    opacity: 0.7,
+    color: 'black',
+    dashArray: '0',
+    fillOpacity: 0
+  }
+}
+
 const Polygon = ({ smpList, geomCoords }) => {
   const mapGL = MapaInteractivoGL()
 
   const {
-    edif,
-    polygon: { paint, type, layout }
+    edif
   } = getParcelLayer()
   const { id: edifId } = edif
   useEffect(() => {
@@ -47,20 +58,49 @@ const Polygon = ({ smpList, geomCoords }) => {
           }
         })
       }
+      
+      const style = styleCatastros({ geometry: geomCoords })
+
+      // Capa de relleno (sin color adentro, opacidad 0)
       mapGL.map.addLayer({
         id: parcelId,
         source: parcelId,
-        type,
-        layout,
-        paint
+        type: 'fill',
+        paint: {
+          'fill-color': style.fillColor,
+          'fill-opacity': style.fillOpacity
+        }
       })
+
+      // Capa de borde de color negro
+      const borderLayerId = `${parcelId}_border`
+      mapGL.map.addLayer({
+        id: borderLayerId,
+        source: parcelId,
+        type: 'line',
+        paint: {
+          'line-color': style.color,
+          'line-width': style.weight,
+          'line-opacity': style.opacity
+        }
+      })
+
       mapGL.map.moveLayer(parcelId, edifId)
+      mapGL.map.moveLayer(borderLayerId, edifId)
     }
     return () => {
-      mapGL.map.removeLayer(parcelId)
-      mapGL.map.removeSource(parcelId)
+      if (mapGL.map.getLayer(parcelId)) {
+        mapGL.map.removeLayer(parcelId)
+      }
+      const borderLayerId = `${parcelId}_border`
+      if (mapGL.map.getLayer(borderLayerId)) {
+        mapGL.map.removeLayer(borderLayerId)
+      }
+      if (mapGL.map.getSource(parcelId)) {
+        mapGL.map.removeSource(parcelId)
+      }
     }
-  }, [geomCoords, mapGL, paint, type, layout, edifId])
+  }, [geomCoords, mapGL, edifId])
 
   return <IFC />
 }
