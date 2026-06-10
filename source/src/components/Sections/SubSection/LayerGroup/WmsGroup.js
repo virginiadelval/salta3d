@@ -345,27 +345,18 @@ const WmsGroup = () => {
     return null
   }
 
+  const excludedTitles = ['Zonificación Tributaria', 'Control Ciudadano', 'Otras Capas']
+
   // Agrupamiento de capas en sus respectivas categorías
-  const categorizedLayers = CATEGORIES.map((cat) => {
-    const layers = wmsLayers.filter((l) => cat.ids.includes(l.id))
-    return {
-      title: cat.title,
-      layers
-    }
-  }).filter((cat) => cat.layers.length > 0)
-
-  // Capas que no quedaron clasificadas en ninguna categoría
-  const allCategorizedIds = CATEGORIES.flatMap((cat) => cat.ids)
-  const uncategorizedLayers = wmsLayers.filter(
-    (l) => !allCategorizedIds.includes(l.id)
-  )
-
-  if (uncategorizedLayers.length > 0) {
-    categorizedLayers.push({
-      title: 'Otras Capas',
-      layers: uncategorizedLayers
-    })
-  }
+  const categorizedLayers = CATEGORIES
+    .filter((cat) => !excludedTitles.includes(cat.title))
+    .map((cat) => {
+      const layers = wmsLayers.filter((l) => cat.ids.includes(l.id))
+      return {
+        title: cat.title,
+        layers
+      }
+    }).filter((cat) => cat.layers.length > 0)
 
   return (
     <Box sx={{ width: '100%' }}>

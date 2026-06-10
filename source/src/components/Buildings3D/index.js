@@ -564,49 +564,49 @@ const Buildings3D = () => {
                   </Box>
 
                   {/* Height Multipliers */}
-                  <Box sx={styles.controlGroup}>
-                    {useLocalGeojson && (
-                      <Box sx={{ mb: 1.5 }}>
-                        <TextField
-                          label="Propiedad de altura"
-                          value={heightProp}
-                          onChange={(e) => setHeightProp(e.target.value)}
-                          size="small"
-                          variant="outlined"
-                          fullWidth
-                          sx={{
-                            '& .MuiOutlinedInput-root': {
-                              fontSize: '11.5px',
-                              '&.Mui-focused fieldset': {
-                                borderColor: ACCENT_COLOR
+                  {sourceType !== 'wfs' && (
+                    <Box sx={styles.controlGroup}>
+                      {useLocalGeojson && (
+                        <Box sx={{ mb: 1.5 }}>
+                          <TextField
+                            label="Propiedad de altura"
+                            value={heightProp}
+                            onChange={(e) => setHeightProp(e.target.value)}
+                            size="small"
+                            variant="outlined"
+                            fullWidth
+                            sx={{
+                              '& .MuiOutlinedInput-root': {
+                                fontSize: '11.5px',
+                                '&.Mui-focused fieldset': {
+                                  borderColor: ACCENT_COLOR
+                                }
+                              },
+                              '& .MuiInputLabel-root': {
+                                fontSize: '12px',
+                                '&.Mui-focused': {
+                                  color: ACCENT_COLOR
+                                }
                               }
-                            },
-                            '& .MuiInputLabel-root': {
-                              fontSize: '12px',
-                              '&.Mui-focused': {
-                                color: ACCENT_COLOR
-                              }
-                            }
-                          }}
-                        />
-                      </Box>
-                    )}
+                            }}
+                          />
+                        </Box>
+                      )}
 
-                    <Typography sx={styles.label}>
-                      {sourceType === 'wfs'
-                        ? `Altura por piso: ${metersPerFloor}m (Atributo: PLANTAS)`
-                        : `Multiplicador / Altura por nivel: ${metersPerFloor}m`}
-                    </Typography>
-                    <Slider
-                      value={metersPerFloor}
-                      min={1.5}
-                      max={8}
-                      step={0.5}
-                      onChange={(e, val) => setMetersPerFloor(val)}
-                      size="small"
-                      sx={{ color: ACCENT_COLOR }}
-                    />
-                  </Box>
+                      <Typography sx={styles.label}>
+                        Multiplicador / Altura por nivel: {metersPerFloor}m
+                      </Typography>
+                      <Slider
+                        value={metersPerFloor}
+                        min={1.5}
+                        max={8}
+                        step={0.5}
+                        onChange={(e, val) => setMetersPerFloor(val)}
+                        size="small"
+                        sx={{ color: ACCENT_COLOR }}
+                      />
+                    </Box>
+                  )}
                 </AccordionDetails>
               </Accordion>
             </>
