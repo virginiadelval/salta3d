@@ -5,7 +5,7 @@ const getAbsoluteUrl = (url) => {
   if (url.startsWith('http') || url.startsWith('/')) {
     return url
   }
-  const publicUrl = process.env.PUBLIC_URL || ''
+  const publicUrl = process.env.PUBLIC_URL ? process.env.PUBLIC_URL : '.'
   return `${publicUrl}/${url}`.replace(/\/+/g, '/')
 }
 

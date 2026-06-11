@@ -229,7 +229,7 @@ const loadLayers = createAsyncThunk('map/loadLayers', async () => {
   const baseLayers = getBaseLayers()
   let wmsLayers = []
   try {
-    const wmsUrl = `${process.env.PUBLIC_URL || ''}/wmsConfig.json`.replace(/\/+/g, '/')
+    const wmsUrl = (process.env.PUBLIC_URL ? process.env.PUBLIC_URL : '.') + '/wmsConfig.json'
     wmsLayers = await fetch(wmsUrl).then((res) => res.json())
   } catch (err) {
     console.error('Error fetching wmsConfig.json:', err)

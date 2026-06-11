@@ -37,7 +37,7 @@ export default function App({ isAuthenticated }) {
 
   return (
     <>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <BrowserRouter basename={(() => { const path = window.location.pathname; if (path.includes('/WebSalta3D')) return '/WebSalta3D'; if (path.includes('/salta3d')) return '/salta3d'; return ''; })()}>
         <Routes authed={isAuthenticated} />
       </BrowserRouter>
       <Tour

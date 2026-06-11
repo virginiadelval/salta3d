@@ -2,7 +2,7 @@
   "name": "cur3d",
   "version": "0.3.0",
   "private": true,
-  "homepage": "/salta3d",
+  "homepage": ".",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
