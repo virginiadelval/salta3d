@@ -552,7 +552,9 @@ const getData = createAsyncThunk(
       {
         title: 'Régimen Urbanístico (Base de Datos)',
         dataList: regimen ? [
+          { name: 'Distrito', value: regimen.distrito ?? 'N/A' },
           { name: 'Sub Distrito', value: regimen.sub_distrito ?? 'N/A' },
+
           { name: 'Superficie Mínima', value: regimen.sup_minima ?? 'N/A' },
           { name: 'Frente Mínimo', value: regimen.frente_min ?? 'N/A' },
           { name: 'F.O.T. Privado', value: regimen.fot_privado ?? 'N/A' },

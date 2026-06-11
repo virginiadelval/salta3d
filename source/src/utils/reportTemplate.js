@@ -10,200 +10,513 @@ export default async (sections, fileName) => {
 
   const marginLeft = 10
   const marginTop = 10
-  const PAGE_HEIGHT = 250
-  const PAGE_WIDTH = 200
+  
+  let y = 46 // Start page 1 below the blue header banner (which is 0 to 38, plus 8mm margin)
 
-  let y = marginTop
-
-
-  const addHeader = () => {
-
-// fehca y hora
-  // Fecha y hora actual
-  const now = new Date()
-
-  const fechaHora =
-    now.toLocaleDateString('es-AR') + ' ' +
-    now.toLocaleTimeString('es-AR', {
-      hour: '2-digit',
-      minute: '2-digit'
-    })
-
-    doc.addImage(imgLogo, 'PNG', 6, 5, 30, 15)
-    doc.setFont(fontName, 'bold')
-    doc.setFontSize(15)
-    doc.text('Reporte Parcelario - IDEMSa ', 40, 15)
-y += 15
-//fecha
-  doc.setFont(fontName, 'normal')
-  doc.setFontSize(9)
-  doc.text(`Consulta: ${fechaHora}`, 40, 20)
-
-    y += 15
-    doc.setDrawColor(37, 52, 148) // color de linea
-    doc.setLineWidth(0.6) // grosor de la linea
-    doc.line(6, 25, 202, 25)
-    y += 8
+  const findValue = (secTitle, name) => {
+    const sec = sections.find(s => s.title.toLowerCase().includes(secTitle.toLowerCase()))
+    if (!sec) return ''
+    const item = sec.dataList.find(i => i.name.trim().toLowerCase() === name.trim().toLowerCase())
+    return item ? (item.value || '') : ''
   }
 
-  const inlineText = ({
-    text,
-    maxLine = PAGE_WIDTH,
-    newlineX = null,
-    initialX = marginLeft,
-    lineHeight = 5
-  }) => {
-    let x = initialX
-    const nextlineX = newlineX || initialX
-    const splitText = text.split(' ')
-
-    const writeWord = (word) => {
-      const widthWord = doc.getTextWidth(word)
-      if (x + widthWord <= maxLine) {
-        doc.text(word, x, y)
-        x += widthWord + 1
-      } else {
-        x = nextlineX
-        y += lineHeight
-        addPageIfNeeded()
-        doc.text(word, x, y)
-        x += widthWord + 1
-      }
-      return { x, y }
-    }
-    splitText.forEach((wordWithSpecials) => {
-      wordWithSpecials.split('\n').forEach((word, idx) => {
-        if (idx > 0) {
-          y += lineHeight
-          addPageIfNeeded()
-          x = nextlineX
-        }
-        ;({ x, y } = writeWord(word))
-      })
-    })
-    return x
-  }
-
-  const addPageIfNeeded = () => {
-    if (y < PAGE_HEIGHT) {
+  const addPageIfNeeded = (neededHeight = 0) => {
+    if (y + neededHeight <= 270) {
       return
     }
-
     doc.addPage()
-    y = marginTop
-
-    addHeader()
+    
+    // Subsequent page header: simple thin line and report name
+    doc.setDrawColor(37, 52, 148)
+    doc.setLineWidth(0.4)
+    doc.line(15, 14, 195, 14)
+    
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(8)
+    doc.setTextColor(120, 120, 120)
+    doc.text('REPORTE PARCELARIO • IDEMSa', 15, 11)
+    
+    y = 20
   }
 
-  addHeader()
+  const drawHeaderBanner = (smp) => {
+    const now = new Date()
+    const fechaHora =
+      now.toLocaleDateString('es-AR') + ' ' +
+      now.toLocaleTimeString('es-AR', {
+        hour: '2-digit',
+        minute: '2-digit'
+      })
 
-  doc.setFont(fontName, 'bold')
-  doc.setFontSize(11)
-  doc.text('AVISO LEGAL', marginLeft, y)
-  y += 5
-  doc.setFont(fontName, 'italic')
+    // Blue background banner (RGB 37, 52, 148)
+    doc.setFillColor(37, 52, 148)
+    doc.rect(0, 0, 210, 38, 'F')
 
-  const firstMessage =
-    '"Esta información no sustituye las normas legales vigentes ni constituye una copia fiel de los datos en poder de la Municipalidad de la Ciudad de Salta. Es responsabilidad del usuario confirmar mediante la vía administrativa pertinente la información provista en este sitio previo a alguna toma de decisión o acción.'
-  inlineText({ text: firstMessage })
-  y += 5
-  const seccodMessage =
-    'La información provista por esta página web es orientativa y no vinculante, al momento de realizar un trámite ante la Municipalidad de la Ciudad de Salta."'
-  inlineText({ text: seccodMessage })
-  y += 10
+    // Add Logo (from base64) on the top right
+    doc.addImage(imgLogo, 'PNG', 165, 6, 30, 15)
 
-  const note =
-    'Nota: La normativa urbanística aplicable corresponde al Código de Planeamiento Urbano Ambiental (CPUA) y al Código de Edificación de la Ciudad de Salta, con sus respectivas modificaciones y actualizaciones vigentes.'
-  inlineText({ text: note })
-  y += 5
+    // Title text in white bold
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(16)
+    doc.setTextColor(255, 255, 255)
+    doc.text('REPORTE PARCELARIO', 15, 17)
 
-  const renderSectionTitle = (title) => {
-    doc.setFont(fontName, 'bold')
-    doc.setFontSize(12)
-    doc.text(title, marginLeft, y)
-    doc.setDrawColor(0, 0, 0) // color de linea
-    doc.setLineWidth(0.2) // grosor de la linea
-    const textWidth = doc.getTextWidth(title)
-    doc.line(marginLeft, y + 1, marginLeft + textWidth, y + 1)
+    // White divider line
+    doc.setDrawColor(255, 255, 255)
+    doc.setLineWidth(0.4)
+    doc.line(15, 23, 195, 23)
+
+    // Metadata line with bold label for Nomenclatura Catastral
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(8.5)
+    
+    const metaPrefix = `Municipio: Salta   |   Fecha de Consulta: ${fechaHora}   |   `
+    doc.text(metaPrefix, 15, 30)
+    
+    const xOffset = 15 + doc.getTextWidth(metaPrefix)
+    doc.setFont('helvetica', 'bold')
+    doc.text('Nomenclatura Catastral: ', xOffset, 30)
+    
+    const labelWidth = doc.getTextWidth('Nomenclatura Catastral: ')
+    doc.setFont('helvetica', 'normal')
+    doc.text(smp || '', xOffset + labelWidth, 30)
   }
 
-  const renderImageData = (textReport) => {
-    if (!textReport) return
+  const drawAvisoLegal = () => {
+    doc.setFillColor(242, 244, 244) // `#F2F4F4` light grey
+    doc.setFont('helvetica', 'italic')
+    doc.setFontSize(8)
+    doc.setTextColor(60, 60, 60)
 
-    doc.addImage(
-      textReport,
-      'JPEG',
-      PAGE_WIDTH / 2 + marginLeft - 75,
-      y + 2,
-      150,
-      90
-    )
-    y += 90 // le da espacio entre las lineas a los subtile
+    const textWidth = 172
+    const rawText = "AVISO LEGAL: Esta información no sustituye las normas legales vigentes ni constituye una copia fiel de los datos en poder de la Municipalidad de la Ciudad de Salta. Es responsabilidad del usuario confirmar mediante la vía administrativa pertinente la información provista en este sitio previo a alguna toma de decisión o acción. La información provista por esta página web es orientativa y no vinculante al momento de realizar un trámite. La normativa aplicable corresponde al Código de Planeamiento Urbano Ambiental (CPUA) y al Código de Edificación de la Ciudad de Salta, con sus respectivas modificaciones y actualizaciones vigentes."
+
+    const lines = doc.splitTextToSize(rawText, textWidth)
+    const lineHeight = 4
+    const padding = 4
+    const boxHeight = lines.length * lineHeight + padding * 2
+
+    // Draw box background
+    doc.rect(15, y, 180, boxHeight, 'F')
+
+    // Draw thick left border (grey)
+    doc.setFillColor(120, 120, 120)
+    doc.rect(15, y, 2.5, boxHeight, 'F')
+
+    // Draw text
+    let textY = y + padding + 3
+    lines.forEach(line => {
+      doc.text(line, 19.5, textY)
+      textY += lineHeight
+    })
+
+    y += boxHeight + 8
   }
 
-  sections.forEach(({ title, dataList }) => {
-    y += 8
-    addPageIfNeeded()
+  const drawSectionHeader = (title) => {
+    addPageIfNeeded(20)
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(11)
+    doc.setTextColor(37, 52, 148) // dark blue
+    doc.text(title.toUpperCase(), 15, y)
 
-    const dataAvailable = dataList.filter(({ value }) => value !== null)
-    if (dataAvailable.length) {
-      renderSectionTitle(title)
-      y += 8
+    // Fine underline
+    doc.setDrawColor(37, 52, 148)
+    doc.setLineWidth(0.5)
+    doc.line(15, y + 1.5, 195, y + 1.5)
 
-      dataAvailable.forEach(({ name, value, linkText, type }) => {
-        addPageIfNeeded()
-        const margin = marginLeft + 5 // corre los subtile
-        doc.setFont(fontName, 'bold')
-        doc.setFontSize(10)
-        const subtile = name ? `.    ${name}: ` : ''
-        let xValue = inlineText({ text: subtile, initialX: margin })
-        const newlineX = xValue
-        doc.setFont(fontName, 'normal')
+    y += 7
+  }
 
-        const values = Array.isArray(value)
-          ? value.map((valueAux) =>
-              typeof valueAux === 'string'
-                ? { titleReport: valueAux, textReport: '' }
-                : valueAux
-            )
-          : [{ titleReport: linkText || '', textReport: value, type }]
-        values.forEach(({ titleReport, textReport, type: typeData }) => {
-          switch (typeData) {
-            case 'IMAGE':
-              renderImageData(textReport)
-              break
-            case 'LINK':
-              // eslint-disable-next-line no-case-declarations
-              const widthUnderline = doc.getTextWidth(titleReport)
-              if (xValue + widthUnderline > PAGE_WIDTH) {
-                xValue = newlineX
-                y += 5
-              }
-              doc.textWithLink(titleReport, xValue, y, { url: textReport })
-              doc.setDrawColor(0, 0, 0) // color de linea
-              doc.setLineWidth(0.2) // grosor de la linea
-              doc.line(xValue, y + 1, xValue + widthUnderline, y + 1)
-              xValue += widthUnderline + 1
-              break
-            default:
-              xValue = inlineText({
-                text: titleReport,
-                newlineX,
-                initialX: xValue
-              })
-              xValue = inlineText({
-                text: textReport,
-                newlineX,
-                initialX: xValue + 1
-              })
-              break
-          }
-        })
-        xValue = newlineX
-        y += 9 // le da espacio entre las lineas a los subtile
+  const drawGridRow = (label, value, isBadge = false, badgeType = '') => {
+    addPageIfNeeded(16)
+
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(9)
+    const labelLines = doc.splitTextToSize(label, 54)
+
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(9)
+    const valLines = doc.splitTextToSize(value, 114)
+
+    const lineHeight = 4.5
+    const padding = 3
+    const rowHeight = Math.max(labelLines.length * lineHeight, valLines.length * lineHeight) + padding * 2
+
+    // Shade left column background
+    doc.setFillColor(242, 244, 244)
+    doc.rect(15, y, 60, rowHeight, 'F')
+
+    // Draw borders
+    doc.setDrawColor(210, 210, 210)
+    doc.setLineWidth(0.2)
+    doc.rect(15, y, 60, rowHeight, 'D')
+    doc.rect(75, y, 120, rowHeight, 'D')
+
+    // Label text (vertically centered)
+    doc.setFont('helvetica', 'bold')
+    doc.setTextColor(37, 52, 148)
+    let labelY = y + (rowHeight - labelLines.length * lineHeight) / 2 + 3
+    labelLines.forEach(line => {
+      doc.text(line, 18, labelY)
+      labelY += lineHeight
+    })
+
+    // Value text
+    doc.setFont('helvetica', 'normal')
+    doc.setTextColor(33, 37, 41)
+    let valY = y + (rowHeight - valLines.length * lineHeight) / 2 + 3
+
+    if (isBadge) {
+      let bgR, bgG, bgB, textR, textG, textB;
+      if (badgeType === 'danger') {
+        bgR = 250; bgG = 219; bgB = 216; // `#FADBD8`
+        textR = 146; textG = 43; textB = 33;
+      } else {
+        bgR = 232; bgG = 248; bgB = 245; // `#E8F8F5`
+        textR = 21; textG = 117; textB = 100;
+      }
+
+      const badgeHeight = valLines.length * lineHeight + 2
+      const badgeWidth = Math.max(...valLines.map(l => doc.getTextWidth(l))) + 6
+      const badgeX = 75 + (120 - badgeWidth) / 2
+      const badgeY = y + (rowHeight - badgeHeight) / 2
+
+      doc.setFillColor(bgR, bgG, bgB)
+      if (typeof doc.roundedRect === 'function') {
+        doc.roundedRect(badgeX, badgeY, badgeWidth, badgeHeight, 1.5, 1.5, 'F')
+      } else {
+        doc.rect(badgeX, badgeY, badgeWidth, badgeHeight, 'F')
+      }
+
+      doc.setFont('helvetica', 'bold')
+      doc.setTextColor(textR, textG, textB)
+      let badgeTextY = badgeY + (badgeHeight - valLines.length * lineHeight) / 2 + 3
+      valLines.forEach(line => {
+        const w = doc.getTextWidth(line)
+        doc.text(line, badgeX + (badgeWidth - w) / 2, badgeTextY)
+        badgeTextY += lineHeight
+      })
+    } else {
+      valLines.forEach(line => {
+        doc.text(line, 78, valY)
+        valY += lineHeight
       })
     }
-  })
+
+    y += rowHeight
+  }
+
+  const drawActivityHeader = (state) => {
+    addPageIfNeeded(16)
+    let bgR, bgG, bgB, textR, textG, textB, titleText;
+    if (state === 'Permitido') {
+      bgR = 212; bgG = 239; bgB = 223;
+      textR = 25; textG = 111; textB = 61;
+      titleText = '✔ ACTIVIDADES PERMITIDAS';
+    } else if (state === 'Condicionado') {
+      bgR = 253; bgG = 235; bgB = 208;
+      textR = 185; textG = 119; textB = 14;
+      titleText = '⚠ ACTIVIDADES CONDICIONADAS (Requieren Resolución/Disposición Fundada)';
+    } else {
+      bgR = 250; bgG = 219; bgB = 216;
+      textR = 146; textG = 43; textB = 33;
+      titleText = '✘ ACTIVIDADES PROHIBIDAS';
+    }
+
+    doc.setFillColor(bgR, bgG, bgB)
+    doc.rect(15, y, 180, 8, 'F')
+
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(9.5)
+    doc.setTextColor(textR, textG, textB)
+    doc.text(titleText, 18, y + 5.5)
+
+    y += 11
+  }
+
+  const drawActivityCategory = (category, text) => {
+    const fullText = `${category}: ${text}`
+    const wrappedLines = doc.splitTextToSize(fullText, 180)
+
+    addPageIfNeeded(wrappedLines.length * 4.5 + 4)
+
+    let lineY = y
+    wrappedLines.forEach((line, index) => {
+      addPageIfNeeded(6)
+      if (index === 0) {
+        doc.setFont('helvetica', 'bold')
+        doc.setFontSize(9)
+        doc.setTextColor(33, 37, 41)
+        const prefix = `${category}: `
+        doc.text(prefix, 15, lineY)
+
+        const prefixWidth = doc.getTextWidth(prefix)
+        doc.setFont('helvetica', 'normal')
+
+        const restOfLine = line.substring(prefix.length)
+        doc.text(restOfLine, 15 + prefixWidth, lineY)
+      } else {
+        doc.setFont('helvetica', 'normal')
+        doc.setFontSize(9)
+        doc.setTextColor(33, 37, 41)
+        doc.text(line, 15, lineY)
+      }
+      lineY += 4.5
+    })
+    y = lineY + 2
+  }
+
+  // --- Main PDF Generation Logic ---
+  const smp = findValue('Información General', 'Nomenclatura Catastral')
+
+  // Draw header banner (Only on page 1)
+  drawHeaderBanner(smp)
+
+  // Aviso Legal
+  drawAvisoLegal()
+
+  // 1. INFORMACIÓN GENERAL DEL INMUEBLE
+  const dir = findValue('Información General', 'Dirección')
+  const barr = findValue('Información General', 'Barrio')
+  const tipoCat = findValue('Información General', 'Tipo de Catastro')
+  const prot = findValue('Información General', 'Inmueble protegido')
+
+  drawSectionHeader('INFORMACIÓN GENERAL DEL INMUEBLE')
+  drawGridRow('Dirección', `${dir}, Barrio ${barr}`)
+  drawGridRow('Tipo de Catastro', tipoCat || 'Catastro simple')
+
+  if (prot && prot.toLowerCase().includes('si')) {
+    const cat = findValue('Información General', 'Categoría')
+    const num = findValue('Información General', 'Número')
+    const tipologia = findValue('Información General', 'Tipología')
+    const ficha = findValue('Información General', 'Ficha')
+    const inst = findValue('Información General', 'Instrumento legal')
+
+    drawGridRow('Inmueble Protegido', `SÍ (Categoría: ${cat} / Número: ${num})`, true, 'danger')
+    drawGridRow('Tipología / Ficha', `${tipologia} / Ficha: ${ficha}`)
+    drawGridRow('Instrumento Legal', inst || 'Decreto N° 392/19')
+  } else {
+    drawGridRow('Inmueble Protegido', 'NO')
+  }
+
+  const lat = findValue('Información General', 'Latitud')
+  const lng = findValue('Información General', 'Longitud')
+  drawGridRow('Coordenadas Geográficas', `Latitud: ${lat}  |  Longitud: ${lng}`)
+  y += 8
+
+  // 2. INFORMACIÓN DOMINIAL Y DE SERVICIOS
+  const owner = findValue('Información Dominial', 'Propietario (PH)')
+  const material = findValue('Servicios', 'Tipo de material de Calles')
+  const recol = findValue('Servicios', '  • Recolección de residuos')
+  const barrido = findValue('Servicios', '  • Tipo de barrido')
+  const alumbrado = findValue('Servicios', 'Alumbrado público')
+  const verdes = findValue('Servicios', 'Mantenimiento de Espacios Verdes')
+  const semaforos = findValue('Servicios', 'Presencia de Semáforos')
+
+  drawSectionHeader('INFORMACIÓN DOMINIAL Y DE SERVICIOS')
+  drawGridRow('Propietario (PH)', owner || 'N/A')
+  drawGridRow('Material de Calles', material || 'Sin Dato')
+  drawGridRow('Recolección de Residuos', `${recol} (AF) — Barrido: ${barrido}`)
+  drawGridRow('Otros Servicios', `Alumbrado público: ${alumbrado}. Mantenimiento de Espacios Verdes: ${verdes}. Semáforos: ${semaforos}.`)
+  y += 8
+
+  // 3. CATEGORIZACIÓN IMPOSITIVA Y VALOR DEL SUELO
+  const tgi = findValue('Categoria Impuesto Inmobiliario', 'Tasa General de Inmueble')
+  const ii = findValue('Categoria Impuesto Inmobiliario', 'Inmpuesto Inmobilidaio')
+  const comer = findValue('Categoria Impuesto Inmobiliario', 'Zonificación Comercial ')
+  const suelo = findValue('Más Valor Suelo', 'Rango de Valor del Suelo')
+
+  drawSectionHeader('CATEGORIZACIÓN IMPOSITIVA Y VALOR DEL SUELO')
+  drawGridRow('Tasa General de Inmueble', tgi || 'N/A', true, 'primary')
+  drawGridRow('Impuesto Inmobiliario', ii || 'N/A', true, 'primary')
+  drawGridRow('Zonificación Comercial', comer || 'N/A', true, 'primary')
+  drawGridRow('Rango de Valor del Suelo', suelo || 'N/A')
+  y += 8
+
+  // 4. RÉGIMEN URBANÍSTICO E INDICADORES
+  const hasRegimen = sections.some(s => s.title.includes('Régimen Urbanístico') && s.dataList.some(i => i.name !== 'Información'))
+  if (hasRegimen) {
+    const dist = findValue('Régimen Urbanístico (Base de Datos)', 'Distrito')
+    const subdist = findValue('Régimen Urbanístico (Base de Datos)', 'Sub Distrito')
+    const supMin = findValue('Régimen Urbanístico (Base de Datos)', 'Superficie Mínima')
+    const frenteMin = findValue('Régimen Urbanístico (Base de Datos)', 'Frente Mínimo')
+    const fotPriv = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.T. Privado')
+    const fotPub = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.T. Público')
+    const fosVU = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.S. VU')
+    const fosVOMF = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.S. VOMF')
+    const fosUC = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.S. UC')
+    const fosGen = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.S.')
+    const altMax = findValue('Régimen Urbanístico (Base de Datos)', 'Altura Máxima')
+    const altMax2 = findValue('Régimen Urbanístico (Base de Datos)', 'Altura Máxima 2')
+    const plantas = findValue('Régimen Urbanístico (Base de Datos)', 'Plantas')
+
+    const rJardin = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Jardín')
+    const rFondo = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Fondo')
+    const rPerfil = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Perfil')
+    const rFrente = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Frente')
+    const rLateral = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Lateral')
+    const rFondo2 = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Fondo 2')
+    const rDesdeLM = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro desde LM')
+
+    drawSectionHeader('RÉGIMEN URBANÍSTICO E INDICADORES')
+
+    let distValue = dist
+    if (subdist && subdist !== 'N/A') {
+      distValue += ` (${subdist})`
+    }
+    drawGridRow('Fuente / Distrito', distValue || 'N/A')
+
+    let supFrente = ''
+    if (supMin && supMin !== 'N/A') supFrente += `Superficie Mínima: ${supMin}`
+    if (frenteMin && frenteMin !== 'N/A') {
+      if (supFrente) supFrente += '  |  '
+      supFrente += `Frente Mínimo: ${frenteMin}`
+    }
+    drawGridRow('Superficie Mínima / Frente', supFrente || 'N/A')
+
+    let fotVal = ''
+    if (fotPriv && fotPriv !== 'N/A') fotVal += `Privado: ${fotPriv}`
+    if (fotPub && fotPub !== 'N/A') {
+      if (fotVal) fotVal += '  |  '
+      fotVal += `Público: ${fotPub}`
+    }
+    drawGridRow('F.O.T. Privado / Público', fotVal || 'N/A')
+
+    let fosVal = ''
+    if (fosGen && fosGen !== 'N/A') fosVal += `F.O.S. General: ${fosGen}`
+    if (fosVU && fosVU !== 'N/A') {
+      if (fosVal) fosVal += '  |  '
+      fosVal += `VU: ${fosVU}`
+    }
+    if (fosVOMF && fosVOMF !== 'N/A') {
+      if (fosVal) fosVal += '  |  '
+      fosVal += `VOMF: ${fosVOMF}`
+    }
+    if (fosUC && fosUC !== 'N/A') {
+      if (fosVal) fosVal += '  |  '
+      fosVal += `UC: ${fosUC}`
+    }
+    drawGridRow('F.O.S. Máximo', fosVal || 'N/A')
+
+    let altVal = ''
+    const finalAlt = altMax && altMax !== 'N/A' ? altMax : (altMax2 && altMax2 !== 'N/A' ? altMax2 : '')
+    if (finalAlt) altVal += `${finalAlt}`
+    if (plantas && plantas !== 'N/A') {
+      if (altVal) altVal += ' / '
+      altVal += `Plantas: ${plantas}`
+    }
+    drawGridRow('Altura Máxima', altVal || 'N/A')
+
+    let retirosList = []
+    if (rFondo && rFondo !== 'N/A') retirosList.push(`Retiro de Fondo: ${rFondo}`)
+    if (rPerfil && rPerfil !== 'N/A') retirosList.push(`Retiro de Perfil: ${rPerfil}`)
+    if (rJardin && rJardin !== 'N/A') retirosList.push(`Retiro de Jardín: ${rJardin}`)
+    if (rFrente && rFrente !== 'N/A') retirosList.push(`Retiro de Frente: ${rFrente}`)
+    if (rLateral && rLateral !== 'N/A') retirosList.push(`Retiro Lateral: ${rLateral}`)
+    if (rFondo2 && rFondo2 !== 'N/A') retirosList.push(`Retiro de Fondo 2: ${rFondo2}`)
+    if (rDesdeLM && rDesdeLM !== 'N/A') retirosList.push(`Retiro desde LM: ${rDesdeLM}`)
+
+    if (retirosList.length === 0) {
+      retirosList.push('N/A')
+    }
+    drawGridRow('Retiros Obligatorios', retirosList.join('\n'))
+
+    addPageIfNeeded(15)
+    doc.setFont('helvetica', 'italic')
+    doc.setFontSize(8)
+    doc.setTextColor(100, 100, 100)
+    const cpuaNote = "* Para parcelas en distritos AC, los indicadores están determinados en el PRAC, estableciendo rangos a los fines de determinar la Capacidad Constructiva Transferible con fines de preservación. El retiro de fondo debe contemplar un 15% de superficie absorbente como mínimo."
+    const cpuaLines = doc.splitTextToSize(cpuaNote, 180)
+    let noteY = y + 2
+    cpuaLines.forEach(line => {
+      doc.text(line, 15, noteY)
+      noteY += 4
+    })
+    y = noteY + 5
+  } else {
+    drawSectionHeader('RÉGIMEN URBANÍSTICO E INDICADORES')
+    drawGridRow('Información', 'No disponible')
+    y += 8
+  }
+
+  // 5. RÉGIMEN DE ACTIVIDADES DEL SUELO
+  const activitiesByState = {
+    Permitido: [],
+    Condicionado: [],
+    Prohibido: []
+  }
+  let currentState = null
+  const actSection = sections.find(s => s.title.includes('Actividades del Suelo'))
+  if (actSection) {
+    actSection.dataList.forEach(item => {
+      if (item.name.includes('--- Actividades con Estado:')) {
+        const match = item.name.match(/Estado:\s*([^-]+)/)
+        if (match) {
+          currentState = match[1].trim()
+        }
+      } else if (currentState && activitiesByState[currentState]) {
+        const categoryName = item.name
+        const activitiesList = Array.isArray(item.value) ? item.value : []
+        const formattedActivities = activitiesList.map(actStr => {
+          let cleaned = actStr.replace(/^\*\s*/, '').trim()
+          const parenMatch = cleaned.match(/^([^(]+)\s*\(([^)]+)\)$/)
+          if (parenMatch) {
+            const act = parenMatch[1].trim()
+            const sub = parenMatch[2].trim()
+            if (act.toLowerCase() === sub.toLowerCase()) {
+              return act
+            }
+          }
+          return cleaned
+        })
+        if (formattedActivities.length > 0) {
+          activitiesByState[currentState].push({
+            category: categoryName,
+            text: formattedActivities.join(', ') + '.'
+          })
+        }
+      }
+    })
+
+    drawSectionHeader('RÉGIMEN DE ACTIVIDADES DEL SUELO')
+
+    doc.setFont('helvetica', 'italic')
+    doc.setFontSize(8.5)
+    doc.setTextColor(100, 100, 100)
+    doc.text('* Todas las actividades no enunciadas expresamente a continuación se consideran actividades NO PERMITIDAS para este distrito.', 15, y)
+    y += 6
+
+    const states = ['Permitido', 'Condicionado', 'Prohibido']
+    states.forEach(state => {
+      const list = activitiesByState[state]
+      if (list && list.length > 0) {
+        drawActivityHeader(state)
+        list.forEach(item => {
+          drawActivityCategory(item.category, item.text)
+        })
+        y += 4
+      }
+    })
+  }
+
+  // --- Footer Loop on All Pages ---
+  const pageCount = doc.internal.getNumberOfPages()
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i)
+
+    // Divider line
+    doc.setDrawColor(220, 220, 220)
+    doc.setLineWidth(0.3)
+    doc.line(15, 280, 195, 280)
+
+    // Text
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(8)
+    doc.setTextColor(120, 120, 120)
+    doc.text('Municipalidad de la Ciudad de Salta • IDEMSa', 15, 285)
+    doc.text(`Página ${i} de ${pageCount}`, 195 - doc.getTextWidth(`Página ${i} de ${pageCount}`), 285)
+  }
 
   doc.save(fileName)
 }
