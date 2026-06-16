@@ -9,16 +9,33 @@
       "url": ""
     },
     {
-      "id": "LayerGroup",
-      "title": "Capas",
-      "path": "layerGroups",
+      "id": "PrivateWorks",
+      "title": "Obras Privadas",
+      "path": "privateWorks",
       "url": ""
     },
-
+    {
+      "id": "Buildable",
+      "title": "Potencial Constructivo",
+      "path": "buildable",
+      "url": ""
+    },
+    {
+      "id": "Transfer",
+      "title": "Transferencia de Potencial Constructivo",
+      "path": "transfer",
+      "url": ""
+    },
     {
       "id": "Report",
       "title": "Reportes",
       "path": "report",
+      "url": ""
+    },
+    {
+      "id": "LayerGroup",
+      "title": "Capas",
+      "path": "layerGroups",
       "url": ""
     },
     {
@@ -33,7 +50,6 @@
       "path": "tutorial",
       "url": ""
     }
-   
   ],
   "explorer": [
     {

@@ -24,12 +24,7 @@ export default async (sections, fileName) => {
   }
 
   const drawWatermark = () => {
-    // Watermark pattern from page 12 of manual
-    try {
-      doc.addImage(imgWatermark, 'PNG', 35, 75, 140, 140, undefined, 'FAST')
-    } catch (e) {
-      console.error("Watermark failed:", e)
-    }
+    // Watermark pattern removed as per user request
   }
 
   const addPageIfNeeded = (neededHeight = 0) => {
@@ -305,11 +300,18 @@ export default async (sections, fileName) => {
   const barr = findValue('Información General', 'Barrio')
   const tipoCat = findValue('Información General', 'Tipo de Catastro')
   const prot = findValue('Información General', 'Inmueble protegido')
+  const supParcelaStr = findValue('Información General', 'Superficie de la Parcela')
 
   drawSectionHeader('INFORMACIÓN GENERAL DEL INMUEBLE')
   drawGridRow('Nomenclatura Catastral', smp || 'N/A') // Nomenclatura Catastral is now the first row
   drawGridRow('Dirección', `${dir}, Barrio ${barr}`)
   drawGridRow('Tipo de Catastro', tipoCat || 'Catastro simple')
+  if (supParcelaStr) {
+    const parsedSup = Number.parseFloat(supParcelaStr)
+    drawGridRow('Superficie Catastral', !Number.isNaN(parsedSup) ? `${parsedSup.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m²` : 'N/A')
+  } else {
+    drawGridRow('Superficie Catastral', 'N/A')
+  }
 
   if (prot && prot.toLowerCase().includes('si')) {
     const cat = findValue('Información General', 'Categoría')
@@ -362,28 +364,49 @@ export default async (sections, fileName) => {
 
   // 4. RÉGIMEN URBANÍSTICO E INDICADORES
   const hasRegimen = sections.some(s => s.title.includes('Régimen Urbanístico') && s.dataList.some(i => i.name !== 'Información'))
-  if (hasRegimen) {
-    const dist = findValue('Régimen Urbanístico (Base de Datos)', 'Distrito')
-    const subdist = findValue('Régimen Urbanístico (Base de Datos)', 'Sub Distrito')
-    const supMin = findValue('Régimen Urbanístico (Base de Datos)', 'Superficie Mínima')
-    const frenteMin = findValue('Régimen Urbanístico (Base de Datos)', 'Frente Mínimo')
-    const fotPriv = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.T. Privado')
-    const fotPub = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.T. Público')
-    const fosVU = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.S. VU')
-    const fosVOMF = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.S. VOMF')
-    const fosUC = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.S. UC')
-    const fosGen = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.S.')
-    const altMax = findValue('Régimen Urbanístico (Base de Datos)', 'Altura Máxima')
-    const altMax2 = findValue('Régimen Urbanístico (Base de Datos)', 'Altura Máxima 2')
-    const plantas = findValue('Régimen Urbanístico (Base de Datos)', 'Plantas')
+  let dist = null
+  let subdist = null
+  let supMin = null
+  let frenteMin = null
+  let fotPriv = null
+  let fotPub = null
+  let fosVU = null
+  let fosVOMF = null
+  let fosUC = null
+  let fosGen = null
+  let altMax = null
+  let altMax2 = null
+  let plantas = null
+  let rJardin = null
+  let rFondo = null
+  let rPerfil = null
+  let rFrente = null
+  let rLateral = null
+  let rFondo2 = null
+  let rDesdeLM = null
 
-    const rJardin = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Jardín')
-    const rFondo = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Fondo')
-    const rPerfil = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Perfil')
-    const rFrente = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Frente')
-    const rLateral = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Lateral')
-    const rFondo2 = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Fondo 2')
-    const rDesdeLM = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro desde LM')
+  if (hasRegimen) {
+    dist = findValue('Régimen Urbanístico (Base de Datos)', 'Distrito')
+    subdist = findValue('Régimen Urbanístico (Base de Datos)', 'Sub Distrito')
+    supMin = findValue('Régimen Urbanístico (Base de Datos)', 'Superficie Mínima')
+    frenteMin = findValue('Régimen Urbanístico (Base de Datos)', 'Frente Mínimo')
+    fotPriv = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.T. Privado')
+    fotPub = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.T. Público')
+    fosVU = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.S. VU')
+    fosVOMF = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.S. VOMF')
+    fosUC = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.S. UC')
+    fosGen = findValue('Régimen Urbanístico (Base de Datos)', 'F.O.S.')
+    altMax = findValue('Régimen Urbanístico (Base de Datos)', 'Altura Máxima')
+    altMax2 = findValue('Régimen Urbanístico (Base de Datos)', 'Altura Máxima 2')
+    plantas = findValue('Régimen Urbanístico (Base de Datos)', 'Plantas')
+
+    rJardin = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Jardín')
+    rFondo = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Fondo')
+    rPerfil = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Perfil')
+    rFrente = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Frente')
+    rLateral = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Lateral')
+    rFondo2 = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro de Fondo 2')
+    rDesdeLM = findValue('Régimen Urbanístico (Base de Datos)', 'Retiro desde LM')
 
     drawSectionHeader('RÉGIMEN URBANÍSTICO E INDICADORES')
 
@@ -481,6 +504,59 @@ export default async (sections, fileName) => {
     drawSectionHeader('RÉGIMEN URBANÍSTICO E INDICADORES')
     drawGridRow('Información', 'No disponible')
     y += 8
+  }
+
+  // 4b. POTENCIAL CONSTRUCTIVO Y CAPACIDAD EDIFICABLE
+  if (supParcelaStr) {
+    const parsedSup = Number.parseFloat(supParcelaStr)
+    if (!Number.isNaN(parsedSup)) {
+      // Parse FOS
+      let fosVal = 0.7
+      if (fosGen && fosGen !== 'N/A' && !Number.isNaN(Number.parseFloat(fosGen))) {
+        fosVal = Number.parseFloat(fosGen)
+      } else if (fosVU && fosVU !== 'N/A' && !Number.isNaN(Number.parseFloat(fosVU))) {
+        fosVal = Number.parseFloat(fosVU)
+      }
+      if (fosVal > 1) {
+        fosVal = fosVal / 100
+      }
+
+      // Parse FOT
+      let fotPrivVal = 3.0
+      if (fotPriv && fotPriv !== 'N/A' && !Number.isNaN(Number.parseFloat(fotPriv))) {
+        fotPrivVal = Number.parseFloat(fotPriv)
+      }
+      let fotPubVal = 4.5
+      if (fotPub && fotPub !== 'N/A' && !Number.isNaN(Number.parseFloat(fotPub))) {
+        fotPubVal = Number.parseFloat(fotPub)
+      }
+
+      // Calculations
+      const supPB = parsedSup * fosVal
+      const supMaxPrivada = parsedSup * fotPrivVal
+      const supMaxPublica = parsedSup * fotPubVal
+      const pisosTeoricos = Math.round(fotPrivVal / fosVal)
+
+      const formatNum = (num) => num.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+
+      drawSectionHeader('POTENCIAL CONSTRUCTIVO Y CAPACIDAD EDIFICABLE')
+      drawGridRow('Superficie Catastral', `${formatNum(parsedSup)} m²`)
+      drawGridRow('Superficie Máxima en Planta Baja (FOS)', `${formatNum(supPB)} m²`)
+      drawGridRow('Pisos Teóricos Estimados', `${pisosTeoricos} pisos`)
+      drawGridRow('Superficie Edificable Privada (FOT Básico)', `${formatNum(supMaxPrivada)} m²`, true, 'primary')
+      drawGridRow('Superficie Edificable Pública (FOT Bonificado)', `${formatNum(supMaxPublica)} m²`, true, 'primary')
+
+      const estimacionNote = `* NOTA DE ESTIMACIÓN: El potencial constructivo total se estima en un rango de ${formatNum(supMaxPrivada)} m² hasta ${formatNum(supMaxPublica)} m² (mediante bonificación por transferencia de edificabilidad). Estos valores son meramente orientativos y están sujetos a las restricciones de retiros obligatorios y patrimonio arquitectónico.`
+      let noteY = y + 4
+      doc.setCharSpace(0)
+      const normalizedNote = estimacionNote.normalize('NFC')
+      const cpuaLines = doc.splitTextToSize(normalizedNote, 180)
+      cpuaLines.forEach(line => {
+        doc.text(line, 15, noteY)
+        noteY += 4
+      })
+      y = noteY + 3
+    }
   }
 
   // 5. RÉGIMEN DE ACTIVIDADES DEL SUELO

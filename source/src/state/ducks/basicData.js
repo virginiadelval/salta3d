@@ -184,23 +184,23 @@ const getData = async ({ coord, smp }) => {
     console.error('Error fetching Soil Value info:', err)
   }
 
-  // 3. Query public:catastros_Ene2025 if we still don't have geometry
-  if (!wfsGeom) {
-    try {
-      const catCql = `CATASTRO = ${catastro} OR CATASTRO = '${catastro}'`
-      const catWfsUrl = `https://geocloud.municipalidadsalta.gob.ar/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:catastros_Ene2025&outputFormat=application/json&cql_filter=${encodeURIComponent(catCql)}`
-      const catRes = await fetch(catWfsUrl)
-      if (catRes.ok) {
-        const catData = await catRes.json()
-        if (catData && catData.features && catData.features.length > 0) {
-          if (catData.features[0].geometry) {
-            wfsGeom = catData.features[0].geometry
-          }
+  let superficie_parcela = null;
+  try {
+    const catCql = `CATASTRO = ${catastro} OR CATASTRO = '${catastro}'`
+    const catWfsUrl = `https://geocloud.municipalidadsalta.gob.ar/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:catastros_Ene2025&outputFormat=application/json&cql_filter=${encodeURIComponent(catCql)}`
+    const catRes = await fetch(catWfsUrl)
+    if (catRes.ok) {
+      const catData = await catRes.json()
+      if (catData && catData.features && catData.features.length > 0) {
+        const props = catData.features[0].properties
+        superficie_parcela = props.SHAPE_Area || null
+        if (!wfsGeom && catData.features[0].geometry) {
+          wfsGeom = catData.features[0].geometry
         }
       }
-    } catch (err) {
-      console.error('Error fetching public cadastre geometry:', err)
     }
+  } catch (err) {
+    console.error('Error fetching public cadastre data:', err)
   }
 
   let lat = info.latitud
@@ -336,6 +336,7 @@ const getData = async ({ coord, smp }) => {
     constitucionEstadoParcelario: null,
     regimen: dbRegimen,
     actividades: dbActividades,
+    superficie_parcela,
 
     // Zoning fields
     zoning_distrito: zoningProps.DISTRITO || 'N/A',

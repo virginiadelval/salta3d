@@ -287,6 +287,10 @@ const CATEGORIES = [
     title: 'Espacios verdes',
     ids: ['wms_espacios_verdes']
   },
+  {
+    title: 'Obras Privadas',
+    ids: ['wms_obras_privadas']
+  },
   // {
   //   title: 'Oficinas Municipales',
   //   ids: ['wms_oficinas_municipales']

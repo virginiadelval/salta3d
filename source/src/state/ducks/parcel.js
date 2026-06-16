@@ -10,7 +10,9 @@ const smpSelected = createAsyncThunk(
   async (smp, { dispatch, getState }) => {
     dispatch(smpActions.updateSmp(smp))
     const { sectionId, sectionOpen } = getState().categories
-    if (!sectionId || sectionId[0] !== 'Information' || !sectionOpen) {
+    const currentSection = sectionId ? sectionId[0] : null
+    const allowedSections = ['Information', 'PrivateWorks', 'Transfer', 'Buildable']
+    if (!currentSection || !allowedSections.includes(currentSection) || !sectionOpen) {
       dispatch(categoriesActions.categorySelected('Information'))
     }
 

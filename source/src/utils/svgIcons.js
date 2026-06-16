@@ -1,8 +1,24 @@
 import React from 'react'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined'
+import ApartmentIcon from '@mui/icons-material/Apartment'
+import ConstructionIcon from '@mui/icons-material/Construction'
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
 
 const icons = [
+  {
+    id: 'buildable',
+    path: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        width="35"
+        viewBox="0 0 29.33 29.33"
+      >
+        <ApartmentIcon />
+      </svg>
+    )
+  },
   {
     id: 'information',
     path: (
@@ -291,6 +307,32 @@ M394.723,54.979l-226.2,224.7l-124.9-70.8L394.723,54.979z M262.223,425.579l-74.5-
           d="M91.872,90.66H90.66V72.483a1.211,1.211,0,0,0-.54-1.008L79.214,64.2a1.212,1.212,0,0,0-1.344,0L66.963,71.474a1.212,1.212,0,0,0-.539,1.008V90.66H65.212a1.212,1.212,0,0,0,0,2.424h26.66a1.212,1.212,0,0,0,0-2.424Zm-15.375,0h-2.8V88.236h2.8Zm0-4.847h-2.8V83.389h2.8Zm0-4.847h-2.8V78.542h2.8Zm2.424,2.394h2.921v2.423H78.92Zm0,7.3V88.206h2.921V90.66Zm9.316,0H84.189V82.185a1.174,1.174,0,0,0-1.174-1.174H78.92V77.33a1.212,1.212,0,0,0-1.212-1.212H72.483a1.212,1.212,0,0,0-1.212,1.212V90.66H68.847V73.131l9.694-6.463,9.694,6.463Z"
           transform="translate(-64 -64)"
         />
+      </svg>
+    )
+  },
+  {
+    id: 'privateWorks',
+    path: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        width="35"
+        viewBox="0 0 24 24"
+      >
+        <ConstructionIcon />
+      </svg>
+    )
+  },
+  {
+    id: 'transfer',
+    path: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        width="35"
+        viewBox="0 0 24 24"
+      >
+        <CompareArrowsIcon />
       </svg>
     )
   }

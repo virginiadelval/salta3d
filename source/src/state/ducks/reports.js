@@ -136,23 +136,24 @@ const getData = createAsyncThunk(
         console.error('Error fetching Soil Value info:', err)
       }
 
-      // 3. Query public:catastros_Ene2025 if we still don't have geometry
-      if (!wfsGeom) {
-        try {
-          const catCql = `CATASTRO = ${smp} OR CATASTRO = '${smp}'`
-          const catWfsUrl = `https://geocloud.municipalidadsalta.gob.ar/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:catastros_Ene2025&outputFormat=application/json&cql_filter=${encodeURIComponent(catCql)}`
-          const catRes = await fetch(catWfsUrl)
-          if (catRes.ok) {
-            const catData = await catRes.json()
-            if (catData && catData.features && catData.features.length > 0) {
-              if (catData.features[0].geometry) {
-                wfsGeom = catData.features[0].geometry
-              }
+      // 3. Query public:catastros_Ene2025 to find geometry and area
+      let superficie_parcela = null
+      try {
+        const catCql = `CATASTRO = ${smp} OR CATASTRO = '${smp}'`
+        const catWfsUrl = `https://geocloud.municipalidadsalta.gob.ar/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:catastros_Ene2025&outputFormat=application/json&cql_filter=${encodeURIComponent(catCql)}`
+        const catRes = await fetch(catWfsUrl)
+        if (catRes.ok) {
+          const catData = await catRes.json()
+          if (catData && catData.features && catData.features.length > 0) {
+            const props = catData.features[0].properties
+            superficie_parcela = props.SHAPE_Area || null
+            if (!wfsGeom && catData.features[0].geometry) {
+              wfsGeom = catData.features[0].geometry
             }
           }
-        } catch (err) {
-          console.error('Error fetching public cadastre geometry:', err)
         }
+      } catch (err) {
+        console.error('Error fetching public cadastre geometry and area:', err)
       }
 
       let lat = info.latitud
@@ -319,7 +320,8 @@ const getData = createAsyncThunk(
         // New Soil Value properties
         mvs_tipo: mvProps.Tipo || 'N/A',
         mvs_cod_link: mvProps.COD_LINK || 'N/A',
-        mvs_valor_rang: mvProps.Valor_Rang || 'N/A'
+        mvs_valor_rang: mvProps.Valor_Rang || 'N/A',
+        superficie_parcela
       }
     }
 
@@ -347,7 +349,8 @@ const getData = createAsyncThunk(
       prac_ficha,
       prac_instrumento,
       regimen,
-      actividades
+      actividades,
+      superficie_parcela
     } = basicDataState
 
     const decodedLink = decodeCodLink(mvs_cod_link)
@@ -360,6 +363,10 @@ const getData = createAsyncThunk(
       {
         name: 'Nomenclatura Catastral',
         value: smp ?? ''
+      },
+      {
+        name: 'Superficie de la Parcela',
+        value: superficie_parcela ? superficie_parcela.toString() : ''
       },
       {
         name: 'Tipo de Catastro',
