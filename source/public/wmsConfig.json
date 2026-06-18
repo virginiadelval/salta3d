@@ -107,7 +107,7 @@
     "id": "wms_red_vial",
     "name": "Red Vial",
     "url": "https://geocloud.municipalidadsalta.gob.ar/geoserver/wms",
-    "layers": "public:ejes_viales_dela_ciudad2025_mayo",
+    "layers": "public:Red_Vial_CPUA2025",
     "format": "image/png",
     "transparent": true,
     "version": "1.1.1",
