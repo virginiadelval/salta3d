@@ -4,6 +4,7 @@ import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined'
 import ApartmentIcon from '@mui/icons-material/Apartment'
 import ConstructionIcon from '@mui/icons-material/Construction'
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
+import CalculateIcon from '@mui/icons-material/Calculate'
 
 const icons = [
   {
@@ -333,6 +334,19 @@ M394.723,54.979l-226.2,224.7l-124.9-70.8L394.723,54.979z M262.223,425.579l-74.5-
         viewBox="0 0 24 24"
       >
         <CompareArrowsIcon />
+      </svg>
+    )
+  },
+  {
+    id: 'tpc',
+    path: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        width="35"
+        viewBox="0 0 24 24"
+      >
+        <CalculateIcon />
       </svg>
     )
   }

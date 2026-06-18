@@ -190,6 +190,20 @@ app.get('/api/obras-privadas', async (req, res) => {
   }
 });
 
+/**
+ * GET /api/tpc-valores
+ * Retrieves TPC reference values from tpc_valores_referencia.
+ */
+app.get('/api/tpc-valores', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT zona, valor_suelo_min, valor_suelo_max, fot_privado FROM tpc_valores_referencia ORDER BY zona ASC;');
+    return res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching TPC valores:', err.message);
+    return res.status(500).json({ error: 'Error interno del servidor al consultar la base de datos' });
+  }
+});
+
 // Start Server
 app.listen(PORT, () => {
   console.log(`Local zoning API server running on port ${PORT}`);

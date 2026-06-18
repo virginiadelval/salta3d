@@ -24,6 +24,8 @@ import CadastreSearch from 'components/Sections/SubSection/CadastreSearch'
 import PrivateWorks from 'components/Sections/SubSection/PrivateWorks'
 import Transfer from 'components/Sections/SubSection/Transfer'
 
+import TPC from 'components/Sections/SubSection/TPC'
+
 const Section = () => {
   const isShow = useSelector((state) => state.categories.sectionOpen)
   const sectionId = useSelector((state) => state.categories.sectionId)
@@ -45,7 +47,7 @@ const Section = () => {
     ['Uses', Uses],
     ['Works', Works],
     ['PrivateWorks', PrivateWorks],
-    ['Transfer', Transfer],
+    ['Transfer', TPC],
     ['Affectations', Affectations],
     ['Normative', Normative],
     ['Inspections', Inspections],
