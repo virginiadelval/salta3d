@@ -603,7 +603,9 @@ const download = createAsyncThunk(
   'report/download',
   async (smp, { getState }) => {
     const report = getState().reports[smp]
-    await buildPDF(report.sections, `IDEMSa - CPUA - Catastro ${smp}.pdf`)
+    const now = new Date()
+    const fecha = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`
+    await buildPDF(report.sections, `Reporte Parcelario - Catastro ${smp} - ${fecha}.pdf`)
   }
 )
 

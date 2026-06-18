@@ -151,6 +151,45 @@ app.get('/api/actividades/:distrito', async (req, res) => {
   }
 });
 
+/**
+ * GET /api/obras-privadas
+ * Retrieves private works plans by catastro or expediente.
+ */
+app.get('/api/obras-privadas', async (req, res) => {
+  const { catastro, expediente } = req.query;
+  
+  if (!catastro && !expediente) {
+    return res.status(400).json({ error: 'Se requiere el parámetro catastro o expediente' });
+  }
+
+  try {
+    let queryText = '';
+    let values = [];
+
+    if (catastro) {
+      queryText = `
+        SELECT * 
+        FROM obras_privadas_registro_expedientes_catastros_sep2025 
+        WHERE CAST(catastro AS TEXT) = $1;
+      `;
+      values = [catastro.toString()];
+    } else {
+      queryText = `
+        SELECT * 
+        FROM obras_privadas_registro_expedientes_catastros_sep2025 
+        WHERE CAST(expediente AS TEXT) ILIKE $1;
+      `;
+      values = [`%${expediente}%`];
+    }
+
+    const result = await pool.query(queryText, values);
+    return res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching obras privadas:', err.message);
+    return res.status(500).json({ error: 'Error interno del servidor al consultar la base de datos' });
+  }
+});
+
 // Start Server
 app.listen(PORT, () => {
   console.log(`Local zoning API server running on port ${PORT}`);

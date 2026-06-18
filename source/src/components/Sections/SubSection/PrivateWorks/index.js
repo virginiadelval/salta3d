@@ -24,20 +24,19 @@ import { useSelector, useDispatch } from 'react-redux'
 import { actions as basicDataActions } from 'state/ducks/basicData'
 import buildPrivateWorksPDF from 'utils/privateWorksReportTemplate'
 import decorators from 'theme/fontsDecorators'
-
-const OBRAS_PRIVADAS_LAYER = 'private:planos_aprobados'
+import { getCustomDbApiUrl } from 'utils/configQueries'
 
 const extractPlanData = (props) => {
   return {
-    expediente: props.EXPEDIENTE || '-',
-    catastro: props.CATASTRO !== undefined && props.CATASTRO !== null ? props.CATASTRO.toString() : '-',
-    plano: props.PLANO !== undefined && props.PLANO !== null ? props.PLANO.toString() : '-',
-    fecha_aprobacion: props.DATA_PROVE || '-',
-    domicilio: props.DOMICILIO || '-',
-    profesional: props.PROFESIONA || '-',
-    estado: props.ESTADO || '-',
-    categoria: props.CATEGORIA || '-',
-    finca: props.FINCA || '-'
+    expediente: props.expediente || props.EXPEDIENTE || '-',
+    catastro: props.catastro !== undefined && props.catastro !== null ? props.catastro.toString() : (props.CATASTRO !== undefined && props.CATASTRO !== null ? props.CATASTRO.toString() : '-'),
+    plano: props.plano !== undefined && props.plano !== null ? props.plano.toString() : (props.PLANO !== undefined && props.PLANO !== null ? props.PLANO.toString() : '-'),
+    fecha_aprobacion: props.data_prove || props.DATA_PROVE || props.fecha || '-',
+    domicilio: props.domicilio || props.DOMICILIO || '-',
+    profesional: props.profesional || props.profesiona || props.PROFESIONA || '-',
+    estado: props.estado || props.ESTADO || '-',
+    categoria: props.categoria || props.CATEGORIA || '-',
+    finca: props.finca || props.FINCA || '-'
   }
 }
 
@@ -60,7 +59,7 @@ const PrivateWorks = () => {
     setSearched(true)
 
     const cleanedVal = value.trim()
-    let cql = ''
+    let apiUrl = ''
     if (type === 'catastro') {
       const numericVal = Number(cleanedVal)
       if (isNaN(numericVal)) {
@@ -68,20 +67,17 @@ const PrivateWorks = () => {
         setLoading(false)
         return
       }
-      cql = `CATASTRO = ${numericVal}`
+      apiUrl = `${getCustomDbApiUrl()}/api/obras-privadas?catastro=${numericVal}`
     } else {
-      const escapedVal = cleanedVal.replace(/'/g, "''")
-      cql = `EXPEDIENTE = '${escapedVal}' OR EXPEDIENTE LIKE '%${escapedVal}%'`
+      apiUrl = `${getCustomDbApiUrl()}/api/obras-privadas?expediente=${encodeURIComponent(cleanedVal)}`
     }
 
-    const wfsUrl = `https://geocloud.municipalidadsalta.gob.ar/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${OBRAS_PRIVADAS_LAYER}&outputFormat=application/json&cql_filter=${encodeURIComponent(cql)}`
-
     try {
-      const res = await fetch(wfsUrl)
+      const res = await fetch(apiUrl)
       if (res.ok) {
         const data = await res.json()
-        if (data && data.features) {
-          const extracted = data.features.map(f => extractPlanData(f.properties))
+        if (data && data.length > 0) {
+          const extracted = data.map(f => extractPlanData(f))
           setPlans(extracted)
           
           // If searching manually and plans exist, select the first match's catastro on the map!
@@ -165,32 +161,10 @@ const PrivateWorks = () => {
   return (
     <ContainerBar type="table">
       <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+        <Box sx={{ mb: 1 }}>
           <Typography variant="h6" color="primary" sx={{ ...decorators.bold }}>
             Obras Privadas
           </Typography>
-          {plans.length > 0 && (
-            <Button
-              variant="outlined"
-              color="primary"
-              size="small"
-              startIcon={<PictureAsPdfIcon />}
-              onClick={() => buildPrivateWorksPDF(plans, smp, searchVal, searchType)}
-              sx={{
-                borderColor: '#f96332',
-                color: '#f96332',
-                fontSize: '11px',
-                py: 0.5,
-                textTransform: 'none',
-                '&:hover': {
-                  borderColor: '#e05326',
-                  bgcolor: 'rgba(249, 99, 50, 0.04)'
-                }
-              }}
-            >
-              Reporte PDF
-            </Button>
-          )}
         </Box>
         <Typography variant="body2" color="textSecondary" sx={{ mb: 3 }}>
           Búsqueda de planos aprobados y estado de expedientes de obras.
@@ -263,11 +237,33 @@ const PrivateWorks = () => {
               {plans.map((plan, idx) => (
                 <Card key={idx} variant="outlined" sx={{ borderLeft: '4px solid #f96332', boxShadow: 1 }}>
                   <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                      <FolderSpecialIcon color="primary" sx={{ fontSize: 20 }} />
-                      <Typography variant="subtitle2" sx={{ ...decorators.bold, fontStyle: 'italic' }}>
-                        Planos Aprobados
-                      </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1, justifyContent: 'space-between' }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <FolderSpecialIcon color="primary" sx={{ fontSize: 20 }} />
+                        <Typography variant="subtitle2" sx={{ ...decorators.bold, fontStyle: 'italic' }}>
+                          Planos Aprobados
+                        </Typography>
+                      </Box>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        startIcon={<PictureAsPdfIcon />}
+                        onClick={() => buildPrivateWorksPDF([plan], smp, searchVal, searchType)}
+                        sx={{
+                          borderColor: '#f96332',
+                          color: '#f96332',
+                          fontSize: '11px',
+                          py: 0.5,
+                          textTransform: 'none',
+                          '&:hover': {
+                            borderColor: '#e05326',
+                            bgcolor: 'rgba(249, 99, 50, 0.04)'
+                          }
+                        }}
+                      >
+                        Generar PDF
+                      </Button>
                     </Box>
                     <Divider sx={{ mb: 1.5 }} />
                     <Grid container spacing={1}>

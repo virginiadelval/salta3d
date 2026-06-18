@@ -9,12 +9,6 @@
       "url": ""
     },
     {
-      "id": "PrivateWorks",
-      "title": "Obras Privadas",
-      "path": "privateWorks",
-      "url": ""
-    },
-    {
       "id": "Buildable",
       "title": "Potencial Constructivo",
       "path": "buildable",
@@ -30,6 +24,12 @@
       "id": "Report",
       "title": "Reportes",
       "path": "report",
+      "url": ""
+    },
+    {
+      "id": "PrivateWorks",
+      "title": "Obras Privadas",
+      "path": "privateWorks",
       "url": ""
     },
     {
@@ -1333,7 +1333,7 @@
       "fill": "mvs_tipo",
       "format": ""
     },
-     {
+    {
       "title": "Tipo de material de Calles",
       "fill": "mvs_calle",
       "format": ""
@@ -1368,7 +1368,7 @@
       "fill": "mvs_semaforo",
       "format": ""
     },
-         {
+    {
       "title": "Propietario",
       "fill": "owner_name",
       "format": ""
@@ -1383,7 +1383,6 @@
       "fill": "owner_cuit",
       "format": ""
     },
-  
     {
       "title": "Distrito ",
       "fill": "distrito",
@@ -1434,8 +1433,6 @@
       "fill": "zoning_area",
       "format": ""
     },
-  
-   
     {
       "title": "Rango de Valor del Suelo",
       "fill": "mvs_valor_rang",
@@ -2517,7 +2514,7 @@
   "camera": {
     "lat": -24.7859,
     "lng": -65.4117,
-    "zoom": 12.0,
+    "zoom": 12,
     "pitch": 0,
     "bearing": 0
   }
