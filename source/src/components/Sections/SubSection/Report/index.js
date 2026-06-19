@@ -9,7 +9,7 @@ import {
   Card,
   Tooltip
 } from '@mui/material'
-import { Warning } from '@mui/icons-material'
+import { Warning, Download } from '@mui/icons-material'
 
 import ContainerBar from 'components/Sections/ContainerBar'
 import { actions } from 'state/ducks/reports'
@@ -24,10 +24,7 @@ const Item = ({ smp, address, state, onClick }) => {
       {state === 'ready' && (
         <Tooltip title="descarga Certificado Urbanístico">
           <IconButton onClick={() => onClick('PDF')} sx={styles.icon}>
-            <img
-              src="https://epok.buenosaires.gob.ar/media/repok/uploads/mapainteractivoba/Certificado_Urbanistico_.png"
-              width="24px"
-            />
+            <Download />
           </IconButton>
         </Tooltip>
       )}

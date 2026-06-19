@@ -163,7 +163,7 @@ const Seeker = ({ onSelectItem }) => {
   return (
     <Box>
       <Downshift
-        id="usig-autocomplete"
+        id="salta-autocomplete"
         onSelect={handleSelectItem}
         itemToString={(item) => item?.value || ''}
         initialHighlightedIndex={0}

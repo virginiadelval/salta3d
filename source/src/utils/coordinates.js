@@ -20,8 +20,8 @@ const origin = proj4('EPSG:7433')
 
 const Coords = {
   /**
-   Convierte coordenadas GKBA en coordenadas geográficas WGS84
-   @param {Array|usig.Punto|usig.Location|geolocation|Object} coords Coordenadas GKBA
+   Convierte coordenadas proyectadas en coordenadas geográficas WGS84
+   @param {Array|Object} coords Coordenadas XY
    @return {Array|Object} Coordenadas WGS84
    */
   toLngLat(coords, returnObject) {
@@ -34,11 +34,11 @@ const Coords = {
   },
 
   /**
-   Convierte coordenadas geográficas WGS84 en coordenadas GKBA
-   @param {Array|usig.Punto|usig.Location|geolocation} coords Coordenadas geográficas WGS84
-   @return {Array|Object} Coordenadas GKBA
+   Convierte coordenadas geográficas WGS84 en coordenadas proyectadas
+   @param {Array|Object} coords Coordenadas geográficas WGS84
+   @return {Array|Object} Coordenadas XY
    */
-  toGkba(coords) {
+  toXY(coords) {
     // Se asume que son 4326
     const p = proj4('EPSG:4326', 'EPSG:7433', coords)
     if (p[0]) return { x: p[0], y: p[1] }

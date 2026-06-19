@@ -3,49 +3,49 @@ var configs = {
   urlConfigBase: 'configBase.json',
   urlLayers: 'layersConfig.json',
   includes: {
-    urlAPI: 'https://epok.buenosaires.gob.ar',
-    urlPhoto: 'https://fotos.usig.buenosaires.gob.ar',
-    urlWsUsig: 'https://ws.usig.buenosaires.gob.ar',
-    urlApiServicioGeo: 'https://ws.usig.buenosaires.gob.ar',
-    urlPDF: 'http://ssplan.buenosaires.gov.ar/man_atipicas/imagenes',
-    urlCAD: 'https://epok.buenosaires.gob.ar/cur3d/dxf'
+    urlAPI: '',
+    urlPhoto: '',
+    urlWsUsig: '',
+    urlApiServicioGeo: '',
+    urlPDF: '',
+    urlCAD: ''
   },
   replaces: [
     {
       key: '{{urlVectorTile}}',
-      value: 'https://vectortiles.usig.buenosaires.gob.ar/cur3d/'
+      value: ''
     },
     {
       key: '{{urlBsAs}}',
-      value: 'https://www.buenosaires.gob.ar/'
+      value: ''
     },
     {
       key: '{{urlCDN2}}',
-      value: 'https://cdn2.buenosaires.gob.ar/'
+      value: ''
     },
     {
       key: '{{urlBoletin}}',
-      value: 'https://documentosboletinoficial.buenosaires.gob.ar/publico/'
+      value: ''
     },
     {
       key: '{{urlBsAsData}}',
-      value: 'https://data.buenosaires.gob.ar/'
+      value: ''
     },
     {
       key: '{{urlBcra}}',
-      value: 'https://www.bcra.gov.ar/'
+      value: ''
     },
     {
       key: '{{urlTAD}}',
-      value: 'https://lbapw.agip.gob.ar/claveciudad'
+      value: ''
     },
     {
       key: '{{urlUsig}}',
-      value: 'https://servicios.usig.buenosaires.gob.ar'
+      value: ''
     },
     {
       key: '{{urlCedom}}',
-      value: 'http://www2.cedom.gob.ar/'
+      value: ''
     },
     {
       key: '{{urlEpsg}}',

@@ -93,7 +93,7 @@ class MapaInteractivoGL {
       2017
     ]
     FOTOS_HISTORICAS_ANO.forEach((year) => {
-      const layerId = `fotografias_aereas_${year}_caba_3857`
+      const layerId = `fotografias_aereas_${year}_salta`
       if (this.map.getLayer(layerId)) {
         this.map.setLayoutProperty(
           layerId,
@@ -131,7 +131,7 @@ class MapaInteractivoGL {
       2017
     ]
     this.map.setLayoutProperty(
-      `fotografias_aereas_${year}_caba_3857`,
+      `fotografias_aereas_${year}_salta`,
       'visibility',
       'visible'
     )
@@ -142,7 +142,7 @@ class MapaInteractivoGL {
       (fotosYear) =>
         fotosYear !== year &&
         this.map.setLayoutProperty(
-          `fotografias_aereas_${fotosYear}_caba_3857`,
+          `fotografias_aereas_${fotosYear}_salta`,
           'visibility',
           'none'
         )
