@@ -1,6 +1,8 @@
-# <p align="center">WebSalta3D - IDEMSa</p>
+# <p align="center">Reporte Parcelario - IDEMSa</p>
 
 Plataforma para la visualización de información en 3D, y del Código Urbanístico de la Municipalidad de Salta.
+
+Este desarrollo se basa en la solución de código abierto Ciudad 3D del Banco Interamericano de Desarrollo (BID), adaptada a las necesidades y requerimientos específicos de la Municipalidad de la Ciudad de Salta.
 
 # Indice
 
@@ -20,7 +22,11 @@ Plataforma para la visualización de información en 3D, y del Código Urbaníst
 
 ### Nota del autor
 
-Este proyecto depende fuertemente de la clase `src/utils/MapaInteractivoGL.js` que implementa la visualización de Vector Tiles con diferentes estilos, utilizando la librería de Mapbox-GL-js en su versión 1.0 (o MapLibre-GL-js en actualizaciones recientes).
+El presente proyecto toma como base conceptual y tecnológica la solución de código abierto **Ciudad 3D**, desarrollada por el Banco Interamericano de Desarrollo (BID) en el marco de la iniciativa *Código para el Desarrollo*. Esta plataforma permite la visualización tridimensional de información urbanística y constituye una referencia para la implementación de herramientas digitales orientadas a la planificación y gestión territorial.
+
+**Referencia:**
+
+Banco Interamericano de Desarrollo (BID). *Ciudad 3D*. Iniciativa Código para el Desarrollo. Disponible en: https://knowledge.iadb.org/es/conocimiento-abierto/codigo-para-el-desarrollo/solucion-de-codigo-abierto/ciudad-3d. Consultado en junio de 2026.
 
 ## Stack de Tecnología
 
@@ -55,7 +61,7 @@ A continuación especificamos la estructura de directorios del proyecto:
   - **Sections**: Despliegue de información al seleccionar elementos.
   - **Seeker**: Autocompletado para el buscador de calles/lugares de Salta.
 - **state**: Estado de la aplicación administrado con Redux utilizando el patrón ducks.
-- **theme**: Definiciones sobre los estilos visuales siguiendo lineamientos de Material Design y la identidad institucional de la **Municipalidad de Salta**.
+- **theme**: Definiciones sobre los estilos visuales siguiendo lineamientos de Material Design y la identidad institucional de la Municipalidad de Salta.
 - **utils**: Funciones transversales a toda la aplicación (configQueries, manejo del mapa, etc).
 
 <br>
@@ -69,7 +75,7 @@ El corazón de la aplicación. Para integrar el paradigma de eventos del mapa co
 
 ## Configuración de la Aplicación
 
-Toda la configuración principal del mapa base, capas 3D y servicios externos (APIs) ha sido desvinculada de servicios externos y se gestiona a través de los archivos `config.js`, `configBase.json` y `layersConfig.json` que apuntan a la infraestructura propia (`geocloud.municipalidadsalta.gob.ar`).
+Toda la configuración principal del mapa base, capas 3D y servicios externos (APIs) ha sido vinculada a servicios internos y se gestiona a través de los archivos `config.js`, `configBase.json` y `layersConfig.json` que apuntan a la infraestructura propia (`geocloud.municipalidadsalta.gob.ar`).
 
 Las variables de entorno y los endpoints pueden ser ajustados en el archivo `config.js` y `configBase.json` ubicados en el directorio `public`.
 
